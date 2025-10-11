@@ -104,7 +104,32 @@ export const stackRecipe = recipe({
   },
 });
 
+// Stack Types
+
 export type StackRecipeVariants = RecipeVariants<typeof stackRecipe>;
+
+export const STACK_GAP = ["xs", "sm", "md", "lg", "xl"] as const;
+
+export const STACK_DIRECTION = ["row", "column"] as const;
+
+export const STACK_JUSTIFICATION = [
+  "start",
+  "center",
+  "end",
+  "between",
+  "around",
+  "evenly",
+] as const;
+
+export const STACK_ALIGNMENT = ["start", "center", "end", "stretch"] as const;
+
+export type StackGap = (typeof STACK_GAP)[number];
+
+export type StackDirection = (typeof STACK_DIRECTION)[number];
+
+export type StackJustification = (typeof STACK_JUSTIFICATION)[number];
+
+export type StackAlignment = (typeof STACK_ALIGNMENT)[number];
 
 export const gridRecipe = recipe({
   base: {
@@ -174,11 +199,28 @@ export const gridRecipe = recipe({
   },
 });
 
+// Grid Types
+
 export type GridRecipeVariants = RecipeVariants<typeof gridRecipe>;
 
-export const GRID_GAP = ["xs", "sm", "md", "lg", "xl"];
+export const GRID_GAP = ["xs", "sm", "md", "lg", "xl"] as const;
 
-export const GRID_PADDING = ["xs", "sm", "md", "lg", "xl"];
+export const GRID_PADDING = ["xs", "sm", "md", "lg", "xl"] as const;
+
+export const GRID_JUSTIFICATION = [
+  "start",
+  "center",
+  "end",
+  "between",
+  "around",
+  "evenly",
+] as const;
+
+export const GRID_ALIGNMENT = ["start", "center", "end", "stretch"] as const;
+
+export type GridJustification = (typeof GRID_JUSTIFICATION)[number];
+
+export type GridAlignment = (typeof GRID_ALIGNMENT)[number];
 
 export type GridGap = (typeof GRID_GAP)[number];
 
