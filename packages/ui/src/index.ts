@@ -8,6 +8,7 @@ export type {
 
 // Component Registry
 export {
+  TableComponentRegistry,
   ComponentRegistry,
   ComponentsByCategory,
   getComponent,

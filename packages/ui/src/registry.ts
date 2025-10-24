@@ -57,6 +57,7 @@ export type ComponentType =
   | React.ExoticComponent<any>;
 
 export interface ComponentRegistryItem {
+  hidden?: boolean;
   component:
     | React.ComponentType<any>
     | React.ForwardRefExoticComponent<any>
@@ -76,30 +77,6 @@ export const DisplayComponentRegistry = {
   Table: {
     component: Table,
     meta: TableMeta,
-  },
-  Tbody: {
-    component: Tbody,
-    meta: TbodyMeta,
-  },
-  Thead: {
-    component: Thead,
-    meta: TheadMeta,
-  },
-  TableCaption: {
-    component: TableCaption,
-    meta: TableCaptionMeta,
-  },
-  Tr: {
-    component: Tr,
-    meta: TrMeta,
-  },
-  Th: {
-    component: Th,
-    meta: ThMeta,
-  },
-  Td: {
-    component: Td,
-    meta: TdMeta,
   },
 };
 
@@ -156,6 +133,39 @@ export const FormComponentRegistry = {
   },
 };
 
+export const TableComponentRegistry = {
+  Tbody: {
+    hidden: true,
+    component: Tbody,
+    meta: TbodyMeta,
+  },
+  Thead: {
+    hidden: true,
+    component: Thead,
+    meta: TheadMeta,
+  },
+  TableCaption: {
+    hidden: true,
+    component: TableCaption,
+    meta: TableCaptionMeta,
+  },
+  Tr: {
+    hidden: true,
+    component: Tr,
+    meta: TrMeta,
+  },
+  Th: {
+    hidden: true,
+    component: Th,
+    meta: ThMeta,
+  },
+  Td: {
+    hidden: true,
+    component: Td,
+    meta: TdMeta,
+  },
+};
+
 // 내부 전용 Text 노드 타입 (children으로 텍스트가 들어가는 경우)
 export const InternalComponentRegistry = {
   Text: {
@@ -183,6 +193,7 @@ export const ComponentRegistry = {
   ...DisplayComponentRegistry,
   ...UiComponentRegistry,
   ...FormComponentRegistry,
+  ...TableComponentRegistry,
   ...InternalComponentRegistry,
 } as const;
 

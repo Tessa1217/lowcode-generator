@@ -3,7 +3,7 @@ import { THEME_COLOR_VARIANTS } from "@packages/vanilla-extract-config";
 import { Table, TableCaption, Thead, Tbody, Tr, Th, Td } from "./table";
 
 const tableScaffold = `
-<>
+<Table>
   <Thead>
     <Tr>
       <Th>제목 1</Th>
@@ -16,7 +16,7 @@ const tableScaffold = `
       <Td>내용 2</Td>
     </Tr>
   </Tbody>
-</>
+</Table>
 `;
 
 export const TableMeta: ComponentMetaDefinition = {
