@@ -12,7 +12,11 @@ import { DragComponentOverlay } from "./drag-component-overlay";
 /**
  * Drag and Drop 컨텍스트
  */
-const DragAndDropContext = ({ children }: { children: React.ReactNode }) => {
+export function DragAndDropContext({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const { handleDragStart, handleDragEnd, activeDrag } = useDragAndDrop();
   const mouseSensor = useSensor(MouseSensor, {
     activationConstraint: {
@@ -48,8 +52,4 @@ const DragAndDropContext = ({ children }: { children: React.ReactNode }) => {
       <DragComponentOverlay activeDrag={activeDrag} />
     </DndContext>
   );
-};
-
-DragAndDropContext.displayName = "DragAndDropContext";
-
-export { DragAndDropContext };
+}

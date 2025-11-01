@@ -1,11 +1,17 @@
 import { DragOverlay } from "@dnd-kit/core";
-import { type TreeNode } from "../../types";
 import {
   ComponentRegistry,
   type ComponentName,
   type ComponentRegistryItem,
 } from "@packages/ui";
-const DragComponentOverlay = ({ activeDrag }: { activeDrag: TreeNode }) => {
+import { type TreeNode } from "../../types";
+
+export function DragComponentOverlay({
+  activeDrag,
+}: {
+  activeDrag: TreeNode | null;
+}) {
+  if (!activeDrag) return null;
   return (
     <DragOverlay>
       {activeDrag
@@ -28,8 +34,4 @@ const DragComponentOverlay = ({ activeDrag }: { activeDrag: TreeNode }) => {
         : null}
     </DragOverlay>
   );
-};
-
-DragComponentOverlay.displayName = "DragComponentOverlay";
-
-export { DragComponentOverlay };
+}

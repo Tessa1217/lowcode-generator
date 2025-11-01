@@ -6,7 +6,7 @@ import { parseScaffoldToTree } from "../utils/parseScaffoldToTree";
 import { useTreeStore } from "../store/treeStore";
 
 export function useDragAndDrop() {
-  const [activeDrag, setActiveDrag] = useState<unknown | null>(null);
+  const [activeDrag, setActiveDrag] = useState<TreeNode | null>(null);
   const {
     tree,
     setTree,
@@ -18,7 +18,7 @@ export function useDragAndDrop() {
 
   const handleDragStart = (event: DragStartEvent) => {
     const { active } = event;
-    setActiveDrag(active.data.current);
+    setActiveDrag(active.data.current as TreeNode);
   };
 
   const handleDragEnd = (event: DragEndEvent) => {
