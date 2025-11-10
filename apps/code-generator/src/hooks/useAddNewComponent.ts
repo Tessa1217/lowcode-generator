@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { type ComponentName } from "@packages/ui";
 import { useTreeStore } from "../store/treeStore";
-import { createNode } from "../utils/treeNodeFactory";
+import { createNode } from "../utils/treeHelper";
 
 export function useAddNewComponent(defaultProps: Record<string, unknown>) {
   const [componentProps, setComponentProps] =
