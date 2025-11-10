@@ -33,10 +33,10 @@ function TreeNode({ node }: TreeNodeComponentProps) {
   const Component = getComponent(node.componentName) as ComponentType;
   const canHaveChildren = meta?.hasChildren;
 
-  const { findAndRemoveNode } = useTreeStore();
+  const { removeNodeById } = useTreeStore();
 
   const handleDelete = () => {
-    findAndRemoveNode(node.id);
+    removeNodeById(node.id);
   };
 
   const {

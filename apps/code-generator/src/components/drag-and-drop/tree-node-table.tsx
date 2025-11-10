@@ -28,10 +28,10 @@ export function TableNodeTree({ rootNode }: TableNodeTreeProps) {
 
   const nodeRef = useRef<HTMLElement>(null);
 
-  const { findAndRemoveNode } = useTreeStore();
+  const { removeNodeById } = useTreeStore();
 
   const handleDelete = () => {
-    findAndRemoveNode(rootNode.id);
+    removeNodeById(rootNode.id);
   };
 
   const {
