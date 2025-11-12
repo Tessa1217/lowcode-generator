@@ -1,4 +1,4 @@
-#  (2025-11-04)
+#  (2025-11-12)
 
 
 ### Features
@@ -19,6 +19,9 @@
 * **atomic components:** 기존 storybook test 컴포넌트 삭제 및 storybook 관련 설정사항 수정 ([89fc112](https://github.com/Tessa1217/lowcode-generator/commit/89fc112a944212961e7ff131a2204a803e122d32))
 * **atomic components:** 레이아웃 컴포넌트(container, section, stack) 생성 ([fff636b](https://github.com/Tessa1217/lowcode-generator/commit/fff636b772826566e0fa24a961ccc9fc02f3dcc2))
 * **atomic components:** 페이지네이션 컴포넌트 생성 및 story 생성 (usePagination 포함) ([b5b6ef3](https://github.com/Tessa1217/lowcode-generator/commit/b5b6ef3ad77d16ebc02f1db4b9bd89147ccc009f))
+* **code viewer:** Code Viewer 액션을 위한 toggle, tooltip show 커스텀 훅 추가 ([483585d](https://github.com/Tessa1217/lowcode-generator/commit/483585dc70f8eed2a3070c37d5a34f354ed3fda1))
+* **code-viewer:** code generation 로직 생성 - import 구문, 컴포넌트 구문, props 구문 생성 및 children 처리 ([f43683c](https://github.com/Tessa1217/lowcode-generator/commit/f43683c784a6ebe3d402f17f98b82344b4ac4a57))
+* **code-viewer:** drag and drop을 통해 트리 구조로 생성된 노드를을 코드 형태로 변환하여 확인 및 복사, 다운로드 하는 코드 뷰어 기능 ([61aa74b](https://github.com/Tessa1217/lowcode-generator/commit/61aa74bc1593c4ba8b973c9edc5adc3c0c232d44))
 * **component canvas:** canvas zoom-in zoom-out 기능 추가(canvas overflow 시 넘치치 않고 전체 화면 볼수 있도록 기능 추가) ([f6327a2](https://github.com/Tessa1217/lowcode-generator/commit/f6327a2f6c684664f35f1ed960e0dc059e860ee2))
 * **component canvas:** Drag and Drop 충돌 탐지 별도 커스텀하게 구현 (중첩한 충돌 영역에 대한 처리 별도로 필요하여 custom detection 사용) ([b8a9942](https://github.com/Tessa1217/lowcode-generator/commit/b8a99425df04aeae1416eb6039c74110a2016a6a))
 * **component canvas:** drag and drop, sortable drag, table node edit에 대한 기능 커스텀 훅으로 분리 ([bf76d6d](https://github.com/Tessa1217/lowcode-generator/commit/bf76d6d6aa760dd6e6ae8f8c17a0304840b449a0))
