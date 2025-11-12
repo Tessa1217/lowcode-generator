@@ -193,5 +193,5 @@ function generateImports(components: Set<string>): string {
     return "";
   }
 
-  return `import { ${componentList.join(", ")} } from '@packages/ui`;
+  return `import { ${componentList.join(", ")} } from '@packages/ui'`;
 }

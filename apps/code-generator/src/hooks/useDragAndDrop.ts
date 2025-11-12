@@ -2,18 +2,18 @@ import type { TreeNode } from "../types";
 import { useState } from "react";
 import { getComponentMeta } from "@packages/ui";
 import { type DragEndEvent, type DragStartEvent } from "@dnd-kit/core";
-import { createNode } from "../utils/treeNodeFactory";
+import { createNode } from "../utils/treeHelper";
 import { useTreeStore } from "../store/treeStore";
 
 export function useDragAndDrop() {
   const [activeDrag, setActiveDrag] = useState<TreeNode | null>(null);
   const {
     tree,
-    setTree,
     insertIntoContainer,
-    findAndRemoveNode,
-    findAndInsertBefore,
-    findAndInsertNode,
+    removeNodeById,
+    setSelectedNode,
+    insertNodeBefore,
+    insertNodeAfter,
   } = useTreeStore();
 
   const handleDragStart = (event: DragStartEvent) => {
@@ -50,27 +50,28 @@ export function useDragAndDrop() {
       if (canNest) {
         insertIntoContainer(targetNodeId, newNode);
       } else if (direction === "before") {
-        findAndInsertBefore(newNode, targetNodeId);
+        insertNodeBefore(newNode, targetNodeId);
       } else {
-        findAndInsertNode(newNode, targetNodeId);
+        insertNodeAfter(newNode, targetNodeId);
       }
+
+      setSelectedNode(newNode);
     }
 
     if (activeType === "tree-node") {
-      const [, removedNode] = findAndRemoveNode(active.id as string);
+      const [, removedNode] = removeNodeById(active.id as string);
       if (!removedNode) return;
 
       if (canNest) {
         insertIntoContainer(targetNodeId, removedNode);
       } else if (direction === "before") {
-        findAndInsertBefore(removedNode, targetNodeId);
+        insertNodeBefore(removedNode, targetNodeId);
       } else {
-        findAndInsertNode(removedNode, targetNodeId);
+        insertNodeAfter(removedNode, targetNodeId);
       }
-    }
 
-    const updatedTree = useTreeStore.getState().tree;
-    setTree(updatedTree);
+      setSelectedNode(removedNode);
+    }
   };
 
   return {

@@ -1,4 +1,3 @@
-import "./zoom-control.css";
 import { Eraser, PlusCircle, MinusCircle } from "lucide-react";
 
 interface ZoomControlProps {

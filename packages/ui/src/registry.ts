@@ -51,6 +51,10 @@ import { Textarea } from "./components/inputs/textarea";
 import { TextareaMeta } from "./components/inputs/textarea.meta";
 import { Select } from "./components/inputs/select";
 import { SelectMeta } from "./components/inputs/select.meta";
+import { FormField } from "./components/inputs/form-field";
+import { FormFieldMeta } from "./components/inputs/form-field.meta";
+import { FormLabel } from "./components/inputs/form-label";
+import { FormLabelMeta } from "./components/inputs/form-label.meta";
 
 export type ComponentType =
   | React.ComponentType<any>
@@ -108,6 +112,14 @@ export const LayoutComponentRegistry = {
 };
 
 export const FormComponentRegistry = {
+  FormField: {
+    component: FormField,
+    meta: FormFieldMeta,
+  },
+  FormLabel: {
+    component: FormLabel,
+    meta: FormLabelMeta,
+  },
   Input: {
     component: Input,
     meta: InputMeta,

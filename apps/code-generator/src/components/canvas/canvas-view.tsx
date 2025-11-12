@@ -3,8 +3,10 @@ import { TreeRenderer } from "../drag-and-drop/tree-renderer";
 import { useDragAndDrop } from "../../hooks/useDragAndDrop";
 import { useTreeStore } from "../../store/treeStore";
 import { useZoomControl } from "../../hooks/useZoomControl";
-import { ZoomControl } from "../layout/zoom-control";
+import { useKeyboardShortcuts } from "../../hooks/useKeyboardShortcuts";
 import { PropertyEditor } from "../property/property-editor";
+import { ZoomControl } from "./zoom-control";
+import { HistoryControls } from "./history-controls";
 import "./canvas-view.css";
 
 export function CanvasView() {
@@ -16,6 +18,7 @@ export function CanvasView() {
   const { tree } = useDragAndDrop();
   const { scale, handleWheel, zoomIn, zoomOut, resetZoom } = useZoomControl();
   const { selectedNode, updateNodeProps } = useTreeStore();
+  useKeyboardShortcuts();
 
   const innerCanvasStyle = {
     transform: `scale(${scale})`,
@@ -37,12 +40,15 @@ export function CanvasView() {
             <TreeRenderer nodes={tree} />
           )}
         </div>
-        <ZoomControl
-          scale={scale}
-          onZoomIn={zoomIn}
-          onZoomOut={zoomOut}
-          onReset={resetZoom}
-        />
+        <div className="canvas-toolbar">
+          <HistoryControls />
+          <ZoomControl
+            scale={scale}
+            onZoomIn={zoomIn}
+            onZoomOut={zoomOut}
+            onReset={resetZoom}
+          />
+        </div>
       </div>
       <PropertyEditor node={selectedNode} onChange={updateNodeProps} />
     </div>
