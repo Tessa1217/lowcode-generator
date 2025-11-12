@@ -7,6 +7,7 @@ import {
 
 export type FormLabelProps = HTMLAttributes<HTMLLabelElement> & {
   required?: boolean;
+  children?: React.ReactNode;
   ref?: Ref<HTMLLabelElement>;
   htmlFor?: string;
 } & FormLabelVariants;

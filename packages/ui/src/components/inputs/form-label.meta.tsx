@@ -6,7 +6,9 @@ export const FormLabelMeta: ComponentMetaDefinition = {
   category: "Forms",
   description: "폼 라벨",
   hasChildren: true,
-  renderPreview: (Component, props) => <Component {...props}>Label</Component>,
+  renderPreview: (Component, props) => (
+    <Component {...props}>{props.children || "Label"}</Component>
+  ),
   props: {
     htmlFor: {
       control: "text",
@@ -26,7 +28,7 @@ export const FormLabelMeta: ComponentMetaDefinition = {
       description: "필수 필드 여부",
     },
     children: {
-      control: "text",
+      control: "json",
       default: "Label",
       description: "라벨 텍스트",
     },

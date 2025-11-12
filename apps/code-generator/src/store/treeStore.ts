@@ -146,7 +146,19 @@ export const useTreeStore = create<TreeStore>()(
       function traverse(nodes: TreeNode[]): TreeNode[] {
         return nodes.map((node) => {
           if (node.id === nodeId) {
-            const updatedNode = updateProps(node, props);
+            const { children: newChildren, ...restProps } = props;
+            let updatedNode = updateProps(node, restProps);
+
+            // children이 전달되었으면 별도로 업데이트 (typography, button 등)
+            if (newChildren !== undefined) {
+              updatedNode = {
+                ...updatedNode,
+                props: {
+                  ...updatedNode.props,
+                  children: newChildren,
+                },
+              };
+            }
 
             // 선택된 노드도 함께 업데이트
             if (selectedNode?.id === nodeId) {

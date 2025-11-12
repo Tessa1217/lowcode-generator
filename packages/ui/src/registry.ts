@@ -39,6 +39,12 @@ import { Button } from "./components/ui/button";
 import { ButtonMeta } from "./components/ui/button.meta";
 import { Divider } from "./components/ui/divider";
 import { DividerMeta } from "./components/ui/divider.meta";
+import { Card } from "./components/ui/card";
+import { CardMeta } from "./components/ui/card.meta";
+import { Badge } from "./components/ui/badge";
+import { BadgeMeta } from "./components/ui/badge.meta";
+import { Avatar } from "./components/ui/avatar";
+import { AvatarMeta } from "./components/ui/avatar.meta";
 
 // inputs
 import { Input } from "./components/inputs/input";
@@ -89,6 +95,18 @@ export const UiComponentRegistry = {
   Divider: {
     component: Divider,
     meta: DividerMeta,
+  },
+  Card: {
+    component: Card,
+    meta: CardMeta,
+  },
+  Badge: {
+    component: Badge,
+    meta: BadgeMeta,
+  },
+  Avatar: {
+    component: Avatar,
+    meta: AvatarMeta,
   },
 };
 
