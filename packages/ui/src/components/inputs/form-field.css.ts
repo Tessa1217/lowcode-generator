@@ -6,18 +6,20 @@ export const formField = recipe({
   base: style({
     display: "flex",
     flexDirection: "column",
-    width: "100%",
   }),
   variants: {
     spacing: {
       sm: style({
-        gap: vars.sizing["1"], // 4px
+        gap: vars.sizing["1"],
+        padding: `${vars.sizing["1"]} ${vars.sizing["1"]}`,
       }),
       md: style({
-        gap: vars.sizing["2"], // 8px
+        gap: vars.sizing["2"],
+        padding: `${vars.sizing["2"]} ${vars.sizing["2"]}`,
       }),
       lg: style({
-        gap: vars.sizing["3"], // 12px
+        gap: vars.sizing["3"],
+        padding: `${vars.sizing["3"]} ${vars.sizing["3"]}`,
       }),
     },
   },

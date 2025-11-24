@@ -1,25 +1,18 @@
-import {
-  ComponentRegistry,
-  ComponentsByCategory,
-  type ComponentName,
-  type ComponentRegistryItem,
-} from "@packages/ui";
+import { type ComponentName } from "@packages/ui";
 import { useState } from "react";
-import { DraggableComponentCard } from "../drag-and-drop/draggable-component-card";
 import { PropertyCanvasEditor } from "../property/property-canvas-editor";
+import { TemplatePalette } from "./template-palette";
+import { PaletteContent } from "./palette-content";
+import { PaletteTabs } from "./palette-tabs";
 import "./component-palette.css";
 
-export function ComponentPalette() {
-  const [openCategories, setOpenCategories] = useState<Record<string, boolean>>(
-    {}
-  );
+export type PaletteTab = "components" | "templates";
 
+export function ComponentPalette() {
   const [selectedComponent, setSelectedComponent] =
     useState<ComponentName | null>(null);
 
-  const toggleCategory = (category: string) => {
-    setOpenCategories((prev) => ({ ...prev, [category]: !prev[category] }));
-  };
+  const [activeTab, setActiveTab] = useState<PaletteTab>("components");
 
   const handleComponentClick = (name: ComponentName) => {
     setSelectedComponent(name);
@@ -34,51 +27,15 @@ export function ComponentPalette() {
       <div className="sidebar-header">
         <h2>Component Palette</h2>
       </div>
+      <PaletteTabs activeTab={activeTab} setActiveTab={setActiveTab} />
       <div className="palette">
-        <div className="palette-content">
-          {Object.entries(ComponentsByCategory).map(
-            ([category, components]) => (
-              <div key={category} className="category" data-category={category}>
-                <h4
-                  className={`category-title ${
-                    openCategories[category] ? "open" : ""
-                  }`}
-                  onClick={() => toggleCategory(category)}
-                >
-                  {category}
-                </h4>
-                <div
-                  className={`category-content ${
-                    openCategories[category] ? "open" : ""
-                  }`}
-                >
-                  <div className="component-grid">
-                    {(components as ComponentName[])
-                      .filter(
-                        (name) =>
-                          !(ComponentRegistry[name] as ComponentRegistryItem)
-                            ?.hidden
-                      )
-                      .map((name) => {
-                        const item = ComponentRegistry[name];
-                        const Component = item.component;
-                        return (
-                          <DraggableComponentCard
-                            key={name}
-                            componentName={name}
-                            component={Component}
-                            onClick={() => handleComponentClick(name)}
-                            isSelected={selectedComponent === name}
-                            meta={item.meta}
-                          />
-                        );
-                      })}
-                  </div>
-                </div>
-              </div>
-            )
-          )}
-        </div>
+        {activeTab === "components" && (
+          <PaletteContent
+            selectedComponent={selectedComponent}
+            onClick={handleComponentClick}
+          />
+        )}
+        {activeTab === "templates" && <TemplatePalette />}
       </div>
       {selectedComponent && (
         <PropertyCanvasEditor

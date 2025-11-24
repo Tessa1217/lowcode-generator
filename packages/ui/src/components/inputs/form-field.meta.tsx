@@ -1,12 +1,25 @@
 import { SIZE_VARIANTS } from "@packages/vanilla-extract-config";
 import { type ComponentMetaDefinition } from "../../types/meta";
+import { FormLabel } from "./form-label";
+import { Input } from "./input";
 
 export const FormFieldMeta: ComponentMetaDefinition = {
   component: "FormField",
   category: "Forms",
   description: "폼 필드",
   hasChildren: true,
-  // renderPreview: (Component, props) => <Component {..props}></Component>,
+  renderPreview: (Component, props) => (
+    <Component {...props}>
+      {props.children || (
+        <>
+          <FormLabel htmlFor="input" required={false}>
+            Label
+          </FormLabel>
+          <Input type="text" inputSize="md" placeholder="입력해주세요." />
+        </>
+      )}
+    </Component>
+  ),
   props: {
     spacing: {
       control: "select",
@@ -15,10 +28,4 @@ export const FormFieldMeta: ComponentMetaDefinition = {
       description: "Form Field 공간 크기",
     },
   },
-  scaffold: `
-    <FormField>
-      <FormLabel>Label</FormLabel>
-      <Input placeholder="Enter value..." />
-    </FormField>
-  `,
 };

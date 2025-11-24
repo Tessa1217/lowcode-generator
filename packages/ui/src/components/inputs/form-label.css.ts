@@ -5,7 +5,7 @@ import { recipe, type RecipeVariants } from "@vanilla-extract/recipes";
 
 export const formLabel = recipe({
   base: [
-    typographyRecipe({ role: "textSmRegular" }),
+    typographyRecipe({ role: "textMdRegular" }),
     {
       color: vars.color.text.primary.default,
       display: "flex",
@@ -16,9 +16,9 @@ export const formLabel = recipe({
   ],
   variants: {
     labelSize: {
-      sm: typographyRecipe({ role: "textSmRegular" }),
-      md: typographyRecipe({ role: "textMdRegular" }),
-      lg: typographyRecipe({ role: "textLgRegular" }),
+      sm: [typographyRecipe({ role: "textSmRegular" })],
+      md: [typographyRecipe({ role: "textMdRegular" })],
+      lg: [typographyRecipe({ role: "textLgRegular" })],
     },
   },
   defaultVariants: {
