@@ -1,5 +1,5 @@
 import { SECTION_SPACING_SCALE } from "@packages/vanilla-extract-config";
-import { type ComponentMetaDefinition } from "../../types/meta";
+import { type ComponentMetaDefinition } from "../types";
 
 export const SectionMeta: ComponentMetaDefinition = {
   component: "Section",

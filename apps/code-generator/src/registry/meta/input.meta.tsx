@@ -1,28 +1,29 @@
 import { SIZE_VARIANTS } from "@packages/vanilla-extract-config";
-import { type ComponentMetaDefinition } from "../../types/meta";
+import { type ComponentMetaDefinition } from "../types";
 
-export const TextareaMeta: ComponentMetaDefinition = {
-  component: "Textarea",
+export const InputMeta: ComponentMetaDefinition = {
+  component: "Input",
   category: "Forms",
-  description: "텍스트박스",
+  description: "입력 필드",
   hasChildren: false,
   renderPreview: (Component, props) => <Component {...props} />,
   props: {
-    inputSize: {
+    type: {
       control: "select",
-      options: [...SIZE_VARIANTS],
-      default: "md",
-      description: "Textarea 입력 필드의 크기",
+      options: ["text", "password", "email", "number"],
+      default: "text",
+      description: "입력 필드의 타입",
     },
     width: {
       control: "text",
       default: "100%",
       description: "요소의 기본 가로 길이",
     },
-    rows: {
-      control: "number",
-      default: 3,
-      description: "Textarea의 Row 수",
+    inputSize: {
+      control: "select",
+      options: [...SIZE_VARIANTS],
+      default: "md",
+      description: "입력 필드의 크기",
     },
     disabled: {
       control: "boolean",
@@ -31,8 +32,8 @@ export const TextareaMeta: ComponentMetaDefinition = {
     },
     placeholder: {
       control: "text",
-      default: "텍스트를 입력해주세요.",
-      description: "Textarea placeholder",
+      default: "입력해주세요.",
+      description: "Input placeholder",
       required: false,
     },
   },

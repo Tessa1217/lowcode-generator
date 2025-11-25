@@ -1,4 +1,4 @@
-import type { ComponentMetaDefinition } from "../../types/meta";
+import { type ComponentMetaDefinition } from "../types";
 
 export const CardMeta: ComponentMetaDefinition = {
   component: "Card",

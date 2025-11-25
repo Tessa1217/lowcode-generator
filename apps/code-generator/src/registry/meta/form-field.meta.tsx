@@ -1,7 +1,6 @@
 import { SIZE_VARIANTS } from "@packages/vanilla-extract-config";
-import { type ComponentMetaDefinition } from "../../types/meta";
-import { FormLabel } from "./form-label";
-import { Input } from "./input";
+import { FormLabel, Input } from "@packages/ui";
+import { type ComponentMetaDefinition } from "../types";
 
 export const FormFieldMeta: ComponentMetaDefinition = {
   component: "FormField",

@@ -1,6 +1,6 @@
-import type { ComponentMetaDefinition } from "../../types/meta";
 import { SIZE_VARIANTS } from "@packages/vanilla-extract-config";
-import { AVATAR_STATUS } from "./avatar.css";
+import { AVATAR_STATUS } from "@packages/ui";
+import { type ComponentMetaDefinition } from "../types";
 
 export const AvatarMeta: ComponentMetaDefinition = {
   component: "Avatar",

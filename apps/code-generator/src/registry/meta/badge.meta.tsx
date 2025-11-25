@@ -1,6 +1,6 @@
-import type { ComponentMetaDefinition } from "../../types/meta";
 import { SIZE_VARIANTS } from "@packages/vanilla-extract-config";
-import { BADGE_COLOR_VARIANTS, BADGE_SHAPES } from "./badge.css";
+import { BADGE_COLOR_VARIANTS, BADGE_SHAPES } from "@packages/ui";
+import { type ComponentMetaDefinition } from "../types";
 
 export const BadgeMeta: ComponentMetaDefinition = {
   component: "Badge",

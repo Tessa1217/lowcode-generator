@@ -18,6 +18,8 @@ export type PropsMeta = {
   description?: string;
 };
 
+export type ComponentProps = Record<string, any>;
+
 export type ComponentMetaDefinition = {
   component: string;
   category: string;
@@ -27,3 +29,7 @@ export type ComponentMetaDefinition = {
   scaffold?: string;
   renderPreview?: (Component: React.ElementType, props: any) => React.ReactNode;
 };
+
+export type ComponentType =
+  | React.ComponentType<any>
+  | React.ExoticComponent<any>;

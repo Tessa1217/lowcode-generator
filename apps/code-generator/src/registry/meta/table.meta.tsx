@@ -1,6 +1,6 @@
 import { THEME_COLOR_VARIANTS } from "@packages/vanilla-extract-config";
-import { type ComponentMetaDefinition } from "../../types/meta";
-import { Table, TableCaption, Thead, Tbody, Tr, Th, Td } from "./table";
+import { Table, TableCaption, Thead, Tbody, Tr, Th, Td } from "@packages/ui";
+import { type ComponentMetaDefinition } from "../types";
 
 const tableScaffold = `
 <Table>

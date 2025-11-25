@@ -1,18 +1,17 @@
 import { SIZE_VARIANTS } from "@packages/vanilla-extract-config";
-import { type ComponentMetaDefinition } from "../../types/meta";
+import { type ComponentMetaDefinition } from "../types";
 
-export const RadioMeta: ComponentMetaDefinition = {
-  component: "Radio",
+export const CheckboxMeta: ComponentMetaDefinition = {
+  component: "Checkbox",
   category: "Forms",
-  description: "라디오",
+  description: "체크박스",
   hasChildren: false,
-  renderPreview: (Component, props) => <Component {...props} />,
   props: {
     inputSize: {
       control: "select",
       options: [...SIZE_VARIANTS],
       default: "md",
-      description: "Radio 입력 필드의 크기",
+      description: "Checkbox 입력 필드의 크기",
     },
     disabled: {
       control: "boolean",
@@ -21,9 +20,9 @@ export const RadioMeta: ComponentMetaDefinition = {
     },
     label: {
       control: "text",
-      default: "Radio Label",
+      default: "Checkbox Label",
       required: false,
-      description: "라디오 Label",
+      description: "체크박스 Label",
     },
   },
 };

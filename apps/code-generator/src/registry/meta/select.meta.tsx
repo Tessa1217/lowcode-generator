@@ -1,5 +1,5 @@
 import { SIZE_VARIANTS } from "@packages/vanilla-extract-config";
-import { type ComponentMetaDefinition } from "../../types/meta";
+import { type ComponentMetaDefinition } from "../types";
 
 export const SelectMeta: ComponentMetaDefinition = {
   component: "Select",

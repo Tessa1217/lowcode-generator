@@ -1,6 +1,6 @@
 import { TYPOGRAPHY_ROLES } from "@packages/vanilla-extract-config";
-import { type ComponentMetaDefinition } from "../../types/meta";
-import { TYPOGRAPHY_ELEMENT } from "./typography";
+import { TYPOGRAPHY_ELEMENT } from "@packages/ui";
+import { type ComponentMetaDefinition } from "../types";
 
 export const TypographyMeta: ComponentMetaDefinition = {
   component: "Typography",
