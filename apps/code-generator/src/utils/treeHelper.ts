@@ -1,6 +1,6 @@
 import type { TreeNode } from "../types";
 import { nanoid } from "nanoid";
-import { getComponentMeta, type ComponentName } from "@packages/ui";
+import { getComponentMeta, type ComponentName } from "../registry";
 import { parseScaffoldToTree } from "./parseScaffoldToTree";
 
 /**

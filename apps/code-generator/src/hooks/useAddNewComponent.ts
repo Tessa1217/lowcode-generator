@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { type ComponentName } from "@packages/ui";
+import { type ComponentName } from "../registry";
 import { useTreeStore } from "../store/treeStore";
 import { createNode } from "../utils/treeHelper";
 

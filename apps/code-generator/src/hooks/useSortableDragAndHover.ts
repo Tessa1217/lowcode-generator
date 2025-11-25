@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { getComponentMeta } from "@packages/ui";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import { getComponentMeta } from "../registry";
 import { type TreeNode } from "../types";
 import { useTreeStore } from "../store/treeStore";
 
