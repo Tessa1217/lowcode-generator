@@ -6,9 +6,9 @@ import { useTabTransition } from "./hooks/useTabTransition";
 import "./App.css";
 
 function App() {
-  const appTabs = ["Canvas", "Tree", "Code"];
+  const APP_TABS = ["Canvas", "Tree", "Code"];
 
-  const { tabs, activeTab, changeTab, isPending } = useTabTransition(appTabs);
+  const { tabs, activeTab, changeTab, isPending } = useTabTransition(APP_TABS);
 
   return (
     <>
