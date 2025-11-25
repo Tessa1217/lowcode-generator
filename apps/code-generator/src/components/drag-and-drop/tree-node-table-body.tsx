@@ -1,4 +1,4 @@
-import { getComponent } from "@packages/ui";
+import { getComponent } from "../../registry";
 import { type TreeNode } from "../../types";
 import { TableCellInput } from "./tree-node-table-cell-input";
 import { DeleteRowButton } from "./tree-node-table-actions";

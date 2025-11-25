@@ -20,12 +20,6 @@ export function CanvasView() {
   const { selectedNode, updateNodeProps } = useTreeStore();
   useKeyboardShortcuts();
 
-  const innerCanvasStyle = {
-    transform: `scale(${scale})`,
-    transformOrigin: "top left",
-    transition: "transform 0.1s ease-out",
-  };
-
   return (
     <div className="canvas-view">
       <div
@@ -33,7 +27,14 @@ export function CanvasView() {
         onWheel={handleWheel}
         className={`component-canvas ${isOver ? "drag-over" : ""}`}
       >
-        <div className="canvas-inner" style={innerCanvasStyle}>
+        <div
+          className="canvas-inner"
+          style={{
+            transform: `scale(${scale})`,
+            transformOrigin: "top left",
+            transition: "transform 0.1s ease-out",
+          }}
+        >
           {tree.length === 0 ? (
             <div className="empty-canvas">Drag components from the palette</div>
           ) : (

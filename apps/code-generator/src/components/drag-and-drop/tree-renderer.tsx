@@ -3,7 +3,7 @@ import {
   getComponentMeta,
   getComponent,
   type ComponentType,
-} from "@packages/ui";
+} from "../../registry";
 import { useSortableDragAndHover } from "../../hooks/useSortableDragAndHover";
 import { useTreeStore } from "../../store/treeStore";
 import { type TreeNode } from "../../types";
