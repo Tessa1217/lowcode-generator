@@ -12,16 +12,19 @@
       "disabled": { "value": "{color.neutral.400}", "type": "color" },
       "selected": { "value": "{color.blue.700}", "type": "color" },
       "primary": {
-        "default": { "value": "{color.blue.700}", "type": "color" },
-        "inverse": { "value": "{color.blue.200}", "type": "color" }
+        "default": { "value": "{color.blue.600}", "type": "color" },
+        "inverse": { "value": "{color.blue.200}", "type": "color" },
+        "bold": { "value": "{color.blue.900}", "type": "color" }
       },
       "secondary": {
-        "default": { "value": "{color.purple.800}", "type": "color" },
-        "inverse": { "value": "{color.purple.100}", "type": "color" }
+        "default": { "value": "{color.purple.600}", "type": "color" },
+        "inverse": { "value": "{color.purple.100}", "type": "color" },
+        "bold": { "value": "{color.purple.900}", "type": "color" }
       },
       "tertiary": {
         "default": { "value": "{color.teal.600}", "type": "color" },
-        "inverse": { "value": "{color.teal.300}", "type": "color" }
+        "inverse": { "value": "{color.teal.300}", "type": "color" },
+        "bold": { "value": "{color.teal.900}", "type": "color" }
       },
       "info": {
         "default": { "value": "{color.blue.700}", "type": "color" },
