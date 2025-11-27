@@ -1,5 +1,5 @@
-import { type ComponentName } from "@packages/ui";
 import { useState } from "react";
+import { type ComponentName } from "../../registry";
 import { PropertyCanvasEditor } from "../property/property-canvas-editor";
 import { TemplatePalette } from "./template-palette";
 import { PaletteContent } from "./palette-content";

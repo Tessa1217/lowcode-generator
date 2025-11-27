@@ -1,5 +1,3 @@
-import type { ComponentMeta, ComponentName } from "@packages/ui";
-
 export interface TreeNode {
   id: string;
   componentName: ComponentName;

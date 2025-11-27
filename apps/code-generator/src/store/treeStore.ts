@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
-import { type ComponentName } from "@packages/ui";
+import { type ComponentName } from "../registry";
 import { type TreeNode } from "../types";
 import {
   insertNodeIntoContainer,
@@ -72,15 +72,15 @@ export const useTreeStore = create<TreeStore>()(
      * @returns 트리 노드 배열
      */
     insertIntoContainer: (targetId, newNode) => {
-      const { tree } = get();
+      const { tree, setTree } = get();
 
       if (targetId === "canvas-root") {
-        get().setTree([...tree, newNode], true);
+        setTree([...tree, newNode], true);
         return;
       }
 
       const updated = insertNodeIntoContainer(tree, targetId, newNode);
-      get().setTree(updated, true);
+      setTree(updated, true);
     },
 
     /**
@@ -88,12 +88,12 @@ export const useTreeStore = create<TreeStore>()(
      * @returns [수정된 트리, 제거된 노드]
      */
     removeNodeById: (id: string) => {
-      const { tree } = get();
+      const { tree, setSelectedNode, setTree, selectedNode } = get();
       const [updated, removedNode] = removeNode(tree, id);
-      if (id === get().selectedNode?.id) {
-        set({ selectedNode: null });
+      if (id === selectedNode?.id) {
+        setSelectedNode(null);
       }
-      get().setTree(updated, true);
+      setTree(updated, true);
       return [updated, removedNode];
     },
     /**
@@ -101,18 +101,18 @@ export const useTreeStore = create<TreeStore>()(
      * direction이 after인 경우는 노드 뒤에 삽입
      */
     insertNodeAfter: (nodeToInsert: TreeNode, targetId: string) => {
-      const { tree } = get();
+      const { tree, setTree } = get();
       const updated = appendNode(tree, targetId, nodeToInsert);
-      if (updated) get().setTree(updated, true);
+      if (updated) setTree(updated, true);
     },
     /**
      * 재귀적으로 노드를 탐색하여 노드에 새 노드를 삽입
      * direction이 before인 경우는 노드 앞에 삽입
      */
     insertNodeBefore: (nodeToInsert: TreeNode, targetId: string) => {
-      const { tree } = get();
+      const { tree, setTree } = get();
       const updated = prependNode(tree, targetId, nodeToInsert);
-      if (updated) get().setTree(updated, true);
+      if (updated) setTree(updated, true);
     },
     /**
      * 노드 아이디 기준으로 찾은 특정 노드를 수정
@@ -120,7 +120,7 @@ export const useTreeStore = create<TreeStore>()(
      * @param updatedNode 수정될 노드 정보
      */
     updateNodeById: (nodeId, updatedNode) => {
-      const { tree } = get();
+      const { tree, setTree } = get();
 
       function update(nodes: TreeNode[]): TreeNode[] {
         return nodes.map((n) => {
@@ -133,7 +133,7 @@ export const useTreeStore = create<TreeStore>()(
       }
 
       const updatedTree = update(tree);
-      get().setTree(updatedTree, true);
+      setTree(updatedTree, true);
     },
     /**
      * 특정 노드의 props만 업데이트
@@ -141,7 +141,7 @@ export const useTreeStore = create<TreeStore>()(
      * @param props 업데이트할 props 객체
      */
     updateNodeProps: (nodeId, props) => {
-      const { tree, selectedNode } = get();
+      const { tree, selectedNode, setTree, setSelectedNode } = get();
 
       function traverse(nodes: TreeNode[]): TreeNode[] {
         return nodes.map((node) => {
@@ -162,7 +162,7 @@ export const useTreeStore = create<TreeStore>()(
 
             // 선택된 노드도 함께 업데이트
             if (selectedNode?.id === nodeId) {
-              set({ selectedNode: updatedNode });
+              setSelectedNode(updatedNode);
             }
 
             return updatedNode;
@@ -177,14 +177,14 @@ export const useTreeStore = create<TreeStore>()(
       }
 
       const updatedTree = traverse(tree);
-      get().setTree(updatedTree, true);
+      setTree(updatedTree, true);
     },
     /**
      * 노드를 복제하여 복제 대상이 된 노드 뒤에 삽입
      * @param nodeId 복제할 노드 아이디
      */
     duplicateNode: (nodeId: string) => {
-      const { tree } = get();
+      const { tree, setTree, setSelectedNode } = get();
 
       const nodeToDuplicate = findNodeById(tree, nodeId);
       if (!nodeToDuplicate) return;
@@ -193,8 +193,8 @@ export const useTreeStore = create<TreeStore>()(
 
       const updated = appendNode(tree, nodeId, duplicated);
       if (updated) {
-        get().setTree(updated, true);
-        set({ selectedNode: duplicated });
+        setTree(updated, true);
+        setSelectedNode(duplicated);
       }
     },
     /**
@@ -202,11 +202,11 @@ export const useTreeStore = create<TreeStore>()(
      * @param nodeId 이동할 노드 아이디
      */
     moveNodeUp: (nodeId: string) => {
-      const { tree } = get();
+      const { tree, setTree } = get();
       const updated = moveNodeUpRecursive(tree, nodeId);
 
       if (updated !== tree) {
-        get().setTree(updated, true);
+        setTree(updated, true);
       }
     },
     /**
@@ -214,11 +214,11 @@ export const useTreeStore = create<TreeStore>()(
      * @param nodeId 이동할 노드 아이디
      */
     moveNodeDown: (nodeId: string) => {
-      const { tree } = get();
+      const { tree, setTree } = get();
       const updated = moveNodeDownRecursive(tree, nodeId);
 
       if (updated !== tree) {
-        get().setTree(updated, true);
+        setTree(updated, true);
       }
     },
     /**
@@ -227,7 +227,7 @@ export const useTreeStore = create<TreeStore>()(
      * @param containerType 컨테이너 타입
      */
     wrapNode: (nodeId: string, containerType: ComponentName) => {
-      const { tree } = get();
+      const { tree, setTree } = get();
 
       const nodeToWrap = findNodeById(tree, nodeId);
       if (!nodeToWrap) return;
@@ -262,7 +262,7 @@ export const useTreeStore = create<TreeStore>()(
 
       const updated = wrapInTree(tree);
       if (updated) {
-        get().setTree(updated, true);
+        setTree(updated, true);
         // 컨테이너를 선택
         set({ selectedNode: container });
       }

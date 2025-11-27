@@ -8,7 +8,10 @@ import {
   type AvatarContainerVariants,
   type AvatarFallbackVariants,
   type AvatarStatusVariants,
+  AVATAR_STATUS,
 } from "./avatar.css";
+
+export { AVATAR_STATUS };
 
 export type AvatarProps = ImgHTMLAttributes<HTMLImageElement> & {
   initials?: string;

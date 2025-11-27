@@ -3,35 +3,31 @@ import {
   ComponentRegistry,
   type ComponentName,
   type ComponentRegistryItem,
-} from "@packages/ui";
+} from "../../registry";
 import { type TreeNode } from "../../types";
+import { ComponentPreview } from "./component-preview";
 
 export function DragComponentOverlay({
   activeDrag,
 }: {
   activeDrag: TreeNode | null;
 }) {
-  if (!activeDrag) return null;
+  if (!activeDrag) {
+    return null;
+  }
+
+  const item = ComponentRegistry[
+    activeDrag.componentName as ComponentName
+  ] as ComponentRegistryItem;
+
+  if (!item) return null;
+
+  const { component, meta } = item;
+  const props = activeDrag.props;
+
   return (
     <DragOverlay>
-      {activeDrag
-        ? (() => {
-            const item = ComponentRegistry[
-              activeDrag.componentName as ComponentName
-            ] as ComponentRegistryItem;
-            if (!item) return null;
-            const { component: Component, meta } = item;
-            const props = activeDrag.props;
-
-            if (meta.renderPreview) {
-              return meta.renderPreview(Component, props);
-            }
-            if (meta.hasChildren) {
-              return <Component {...props}>Preview</Component>;
-            }
-            return <Component {...props} />;
-          })()
-        : null}
+      <ComponentPreview component={component} meta={meta} props={props} />
     </DragOverlay>
   );
 }

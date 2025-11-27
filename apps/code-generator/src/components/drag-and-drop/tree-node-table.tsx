@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { getComponent } from "@packages/ui";
+import { getComponent } from "../../registry";
 import { type TreeNode } from "../../types";
 import { useSortableDragAndHover } from "../../hooks/useSortableDragAndHover";
 import { useTreeStore } from "../../store/treeStore";

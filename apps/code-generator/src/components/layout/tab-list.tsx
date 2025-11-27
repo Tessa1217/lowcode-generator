@@ -1,4 +1,4 @@
-import "./tabs-list.css";
+import { mainTabs, tabWrapper, tab } from "./tab.css";
 
 interface TabListProps {
   tabs: string[];
@@ -8,15 +8,15 @@ interface TabListProps {
 
 export function TabList({ tabs, activeTab, changeTab }: TabListProps) {
   return (
-    <header className="main-tabs">
-      <nav className="tabs">
-        {tabs.map((tab) => (
+    <header className={mainTabs}>
+      <nav className={tabWrapper}>
+        {tabs.map((t) => (
           <button
-            key={tab}
-            className={activeTab === tab ? "tab active" : "tab"}
-            onClick={() => changeTab(tab)}
+            key={t}
+            className={tab({ isActive: activeTab === t })}
+            onClick={() => changeTab(t)}
           >
-            {tab}
+            {t}
           </button>
         ))}
       </nav>

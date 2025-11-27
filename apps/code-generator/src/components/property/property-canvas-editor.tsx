@@ -1,13 +1,9 @@
-import {
-  getComponent,
-  getComponentMeta,
-  type ComponentName,
-} from "@packages/ui";
-import { Plus, X } from "lucide-react";
+import { Plus } from "lucide-react";
+import { getComponentItem, type ComponentName } from "../../registry";
 import { getDefaultProps } from "../../utils/getDefaultProps";
 import { useAddNewComponent } from "../../hooks/useAddNewComponent";
-import { ComponentPreview } from "../drag-and-drop/component-preview";
-import { PropertyField } from "./property-field";
+import { PropertyInfo } from "./property-info";
+import { PropertyFieldsEditor } from "./property-fields-editor";
 import "./property-canvas-editor.css";
 
 interface PropertyCanvasEditorProps {
@@ -19,9 +15,8 @@ export function PropertyCanvasEditor({
   componentName,
   onClose,
 }: PropertyCanvasEditorProps) {
-  const meta = getComponentMeta(componentName);
-  const component = getComponent(componentName);
-  const defaultProps: Record<string, unknown> = getDefaultProps(componentName);
+  const { meta, component } = getComponentItem(componentName);
+  const defaultProps = getDefaultProps(componentName);
 
   const { componentProps, handleComponentPropsChange, addNewComponent } =
     useAddNewComponent(defaultProps);
@@ -39,44 +34,14 @@ export function PropertyCanvasEditor({
         className="property-canvas-editor-panel"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="property-canvas-editor-header">
-          <div className="header-content">
-            <h3>{meta.component}</h3>
-            <button
-              className="close-button"
-              onClick={onClose}
-              aria-label="Close"
-            >
-              <X />
-            </button>
-          </div>
-          {meta.description && (
-            <p className="component-description">{meta.description}</p>
-          )}
-        </div>
-        <ComponentPreview
-          componentName={componentName}
+        <PropertyInfo meta={meta} onClose={onClose} />
+        <PropertyFieldsEditor
+          name={componentName}
           meta={meta}
           component={component}
           props={componentProps}
+          onPropsChange={handleComponentPropsChange}
         />
-        <div className="property-fields-scroll">
-          {Object.keys(meta.props).length === 0 ? (
-            <p className="no-properties">No properties available</p>
-          ) : (
-            Object.entries(meta.props).map(([propName, propMeta]) => (
-              <PropertyField
-                key={propName}
-                propName={propName}
-                propMeta={propMeta}
-                value={componentProps[propName]}
-                onChange={(value) =>
-                  handleComponentPropsChange(propName, value)
-                }
-              />
-            ))
-          )}
-        </div>
         <div className="property-canvas-editor-footer">
           <button className="add-component-button" onClick={handleAddComponent}>
             <Plus /> <span>Add Component</span>

@@ -7,6 +7,22 @@ import { type TreeNode } from "../../types";
 import { useToggle } from "../../hooks/useToggle";
 import { useTooltip } from "../../hooks/useTooltip";
 import { useCodeGeneration } from "../../hooks/useCodeGeneration";
+import {
+  darkTheme,
+  lightTheme,
+  codeEditorWrapper,
+  codeEditorToolbar,
+  codeEditorFilenameWrapper,
+  codeEditorFilenamePopup,
+  filenamePopupHeader,
+  codeEditorInput,
+  toolbarButtonWrapper,
+  codeEditor,
+  toolbarButton,
+  filenameConfirmBtn,
+  toolbarTooltip,
+  tooltipIcon,
+} from "./code-editor-view.css";
 
 interface CodeViewerProps {
   nodes: TreeNode[];
@@ -85,35 +101,27 @@ export function CodeViewer({
     });
   };
 
+  const themeClass = theme === "vs-dark" ? darkTheme : lightTheme;
+
   return (
-    <div className="code-editor-wrapper">
+    <div className={cn(codeEditorWrapper, themeClass)}>
       {/* 툴바 */}
-      <div
-        className={cn(
-          "code-editor-toolbar",
-          theme === "vs-dark" ? "theme-dark" : "theme-light"
-        )}
-      >
-        <div className="code-editor-filename-wrapper">
-          <button onClick={toggle}>
+      <div className={codeEditorToolbar}>
+        <div className={codeEditorFilenameWrapper}>
+          <button onClick={toggle} className={toolbarButton}>
             <PencilLine />
             파일명 변경
           </button>
           {on && (
-            <div
-              className={cn(
-                "code-editor-filename-popup",
-                theme === "vs-dark" ? "theme-dark" : "theme-light"
-              )}
-            >
-              <div className="filename-popup-header">
+            <div className={codeEditorFilenamePopup}>
+              <div className={filenamePopupHeader}>
                 <span>파일명 변경</span>
               </div>
               <input
                 id="fileName"
                 name="fileName"
                 placeholder="파일명을 변경해주세요."
-                className="code-editor-input"
+                className={codeEditorInput}
                 value={fileName}
                 onChange={(e) => setFileName(e.target.value)}
                 autoFocus
@@ -122,44 +130,40 @@ export function CodeViewer({
                   if (e.key === "Escape") toggle();
                 }}
               />
-              <button onClick={toggle} className="filename-confirm-btn">
+              <button onClick={toggle} className={filenameConfirmBtn}>
                 확인
               </button>
             </div>
           )}
         </div>
-        <button onClick={handleThemeChange}>
+        <button onClick={handleThemeChange} className={toolbarButton}>
           <Palette />
           테마 변경
         </button>
-        <div className="toolbar-button-wrapper">
-          <button onClick={handleCopy}>
+        <div className={toolbarButtonWrapper}>
+          <button onClick={handleCopy} className={toolbarButton}>
             <Clipboard />
             복사
           </button>
-          {copyTooltip.show && (
-            <div className="toolbar-tooltip success">
-              <Check className="tooltip-icon" />
-              복사 완료!
-            </div>
-          )}
+          <div className={toolbarTooltip({ show: copyTooltip.show })}>
+            <Check className={tooltipIcon} />
+            복사 완료!
+          </div>
         </div>
-        <div className="toolbar-button-wrapper">
-          <button onClick={handleDownload}>
+        <div className={toolbarButtonWrapper}>
+          <button onClick={handleDownload} className={toolbarButton}>
             <Download />
             다운로드
           </button>
-          {downloadTooltip.show && (
-            <div className="toolbar-tooltip success">
-              <Check className="tooltip-icon" />
-              다운로드 완료!
-            </div>
-          )}
+          <div className={toolbarTooltip({ show: downloadTooltip.show })}>
+            <Check className="tooltip-icon" />
+            다운로드 완료!
+          </div>
         </div>
       </div>
 
       {/* Monaco Editor */}
-      <div className="code-editor">
+      <div className={codeEditor}>
         <Editor
           width={"100%"}
           height={height}

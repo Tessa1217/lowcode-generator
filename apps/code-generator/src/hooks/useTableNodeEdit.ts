@@ -1,4 +1,4 @@
-import { getComponentMeta } from "@packages/ui";
+import { getComponentMeta } from "../registry";
 import { useTreeStore } from "../store/treeStore";
 import { type TreeNode } from "../types";
 import { safeClone } from "../utils/safeClone";

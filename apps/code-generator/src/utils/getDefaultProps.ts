@@ -1,4 +1,4 @@
-import { type ComponentName, getComponentMeta } from "@packages/ui";
+import { type ComponentName, getComponentMeta } from "../registry";
 
 export function getDefaultProps(name: ComponentName): Record<string, unknown> {
   const meta = getComponentMeta(name);

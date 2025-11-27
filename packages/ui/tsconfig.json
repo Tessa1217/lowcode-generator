@@ -9,7 +9,6 @@
       ]
     }
   },
-
   "include": ["src", "../../vanilla-extract-config/*", "../tokens/*"],
   "exclude": ["node_modules"]
 }

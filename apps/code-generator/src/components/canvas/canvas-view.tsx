@@ -7,7 +7,13 @@ import { useKeyboardShortcuts } from "../../hooks/useKeyboardShortcuts";
 import { PropertyEditor } from "../property/property-editor";
 import { ZoomControl } from "./zoom-control";
 import { HistoryControls } from "./history-controls";
-import "./canvas-view.css";
+import {
+  canvasView,
+  componentCanvas,
+  canvasInner,
+  emptyCanvas,
+  canvasToolbar,
+} from "./canvas-view.css";
 
 export function CanvasView() {
   const { setNodeRef, isOver } = useDroppable({
@@ -20,27 +26,26 @@ export function CanvasView() {
   const { selectedNode, updateNodeProps } = useTreeStore();
   useKeyboardShortcuts();
 
-  const innerCanvasStyle = {
-    transform: `scale(${scale})`,
-    transformOrigin: "top left",
-    transition: "transform 0.1s ease-out",
-  };
-
   return (
-    <div className="canvas-view">
+    <div className={canvasView}>
       <div
         ref={setNodeRef}
         onWheel={handleWheel}
-        className={`component-canvas ${isOver ? "drag-over" : ""}`}
+        className={componentCanvas({ isOver })}
       >
-        <div className="canvas-inner" style={innerCanvasStyle}>
+        <div
+          className={canvasInner}
+          style={{
+            transform: `scale(${scale})`,
+          }}
+        >
           {tree.length === 0 ? (
-            <div className="empty-canvas">Drag components from the palette</div>
+            <div className={emptyCanvas}>Drag components from the palette</div>
           ) : (
             <TreeRenderer nodes={tree} />
           )}
         </div>
-        <div className="canvas-toolbar">
+        <div className={canvasToolbar}>
           <HistoryControls />
           <ZoomControl
             scale={scale}

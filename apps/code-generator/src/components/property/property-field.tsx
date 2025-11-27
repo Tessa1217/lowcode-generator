@@ -1,4 +1,4 @@
-import { type PropsMeta } from "@packages/ui";
+import { type PropsMeta } from "../../registry";
 import "./property-field.css";
 
 interface PropertyFieldProps {

@@ -1,7 +1,7 @@
 import type { TreeNode } from "../types";
 import { useState } from "react";
-import { getComponentMeta } from "@packages/ui";
 import { type DragEndEvent, type DragStartEvent } from "@dnd-kit/core";
+import { getComponentMeta } from "../registry";
 import { createNode } from "../utils/treeHelper";
 import { useTreeStore } from "../store/treeStore";
 

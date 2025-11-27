@@ -1,5 +1,5 @@
-import { getComponentMeta } from "@packages/ui";
-import { type TreeNode } from "../../types/index";
+import { getComponentMeta } from "../../registry";
+import { type TreeNode } from "../../types";
 import { PropertyField } from "./property-field";
 import "./property-editor.css";
 

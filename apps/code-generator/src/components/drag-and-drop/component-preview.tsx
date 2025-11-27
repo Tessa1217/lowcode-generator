@@ -1,37 +1,23 @@
-import {
-  type ComponentType,
-  type ComponentName,
-  type ComponentMeta,
-} from "@packages/ui";
-import { getDefaultProps } from "../../utils/getDefaultProps";
+import { type ComponentMeta, type ComponentProps } from "../../registry";
 
 export interface ComponentPreviewProps {
-  componentName: ComponentName;
-  component: ComponentType;
+  component: React.ElementType;
   meta: ComponentMeta;
-  props?: Record<string, unknown>;
+  props?: ComponentProps;
 }
+
 export function ComponentPreview({
-  componentName,
-  component,
+  component: Component,
   meta,
-  props,
+  props = {},
 }: ComponentPreviewProps) {
-  const Component = component;
-  const defaultProps = getDefaultProps(componentName);
-  return (
-    <div className="thumbnail">
-      <div className="mini-preview">
-        {meta.renderPreview ? (
-          meta.renderPreview(Component, { ...defaultProps, ...(props || {}) })
-        ) : meta.hasChildren ? (
-          <Component {...defaultProps} {...(props || {})}>
-            Preview
-          </Component>
-        ) : (
-          <Component {...defaultProps} {...(props || {})} />
-        )}
-      </div>
-    </div>
-  );
+  if (meta.renderPreview) {
+    return <>{meta.renderPreview(Component, props)}</>;
+  }
+
+  if (meta.hasChildren) {
+    return <Component {...props}>Preview</Component>;
+  }
+
+  return <Component {...props} />;
 }
