@@ -1,5 +1,6 @@
 import { Undo, Redo } from "lucide-react";
 import { useHistoryStore } from "../../store/historyStore";
+import { historyControls, historyBtn } from "./canvas-view.css";
 
 export function HistoryControls() {
   const { undo, redo, canUndo, canRedo } = useHistoryStore();
@@ -9,9 +10,9 @@ export function HistoryControls() {
   const redoShortcut = isMac ? "⌘⇧Z" : "Ctrl+Y";
 
   return (
-    <div className="history-controls">
+    <div className={historyControls}>
       <button
-        className="history-btn"
+        className={historyBtn({ disabled: !canUndo })}
         onClick={undo}
         disabled={!canUndo}
         title={`Undo (${undoShortcut})`}
@@ -21,7 +22,7 @@ export function HistoryControls() {
       </button>
 
       <button
-        className="history-btn"
+        className={historyBtn({ disabled: !canRedo })}
         onClick={redo}
         disabled={!canRedo}
         title={`Redo (${redoShortcut})`}

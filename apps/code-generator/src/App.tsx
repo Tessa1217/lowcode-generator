@@ -3,7 +3,7 @@ import { ComponentPalette } from "./components/component-palette/component-palet
 import { TabList } from "./components/layout/tab-list";
 import { TabContent } from "./components/layout/tab-content";
 import { useTabTransition } from "./hooks/useTabTransition";
-import * as styles from "./App.css";
+import { appLayout, main, mainSection } from "./App.css";
 
 function App() {
   const APP_TABS = ["Canvas", "Tree", "Code"];
@@ -12,12 +12,12 @@ function App() {
 
   return (
     <>
-      <div className={styles.appLayout}>
+      <div className={appLayout}>
         <DragAndDropContext>
           <ComponentPalette />
-          <main className={styles.main}>
+          <main className={main}>
             <TabList tabs={tabs} activeTab={activeTab} changeTab={changeTab} />
-            <section className={styles.mainSection}>
+            <section className={mainSection}>
               <TabContent activeTab={activeTab} isPending={isPending} />
             </section>
           </main>
