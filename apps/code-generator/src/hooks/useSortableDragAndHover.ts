@@ -4,6 +4,7 @@ import { CSS } from "@dnd-kit/utilities";
 import { getComponentMeta } from "../registry";
 import { type TreeNode } from "../types";
 import { useTreeStore } from "../store/treeStore";
+import { isInteractiveElement } from "../utils/isInteractiveElement";
 
 export const useSortableDragAndHover = (
   rootNode: TreeNode,
@@ -61,13 +62,7 @@ export const useSortableDragAndHover = (
       return; // stopPropagation 하지 않음
     }
 
-    if (
-      el.tagName === "INPUT" ||
-      el.tagName === "BUTTON" ||
-      el.tagName === "TEXTAREA" ||
-      el.closest("input") ||
-      el.closest("button")
-    ) {
+    if (isInteractiveElement(el)) {
       e.stopPropagation();
     }
   };
