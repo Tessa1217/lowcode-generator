@@ -4,7 +4,12 @@ import { getDefaultProps } from "../../utils/getDefaultProps";
 import { useAddNewComponent } from "../../hooks/useAddNewComponent";
 import { PropertyInfo } from "./property-info";
 import { PropertyFieldsEditor } from "./property-fields-editor";
-import "./property-canvas-editor.css";
+import {
+  editorFooter,
+  editorOverlay,
+  editorPanel,
+  addComponentButton,
+} from "./property-editor.css";
 
 interface PropertyCanvasEditorProps {
   componentName: ComponentName;
@@ -29,11 +34,8 @@ export function PropertyCanvasEditor({
   };
 
   return (
-    <div className="property-canvas-editor-overlay" onClick={onClose}>
-      <div
-        className="property-canvas-editor-panel"
-        onClick={(e) => e.stopPropagation()}
-      >
+    <div className={editorOverlay} onClick={onClose}>
+      <div className={editorPanel} onClick={(e) => e.stopPropagation()}>
         <PropertyInfo meta={meta} onClose={onClose} />
         <PropertyFieldsEditor
           name={componentName}
@@ -42,8 +44,8 @@ export function PropertyCanvasEditor({
           props={componentProps}
           onPropsChange={handleComponentPropsChange}
         />
-        <div className="property-canvas-editor-footer">
-          <button className="add-component-button" onClick={handleAddComponent}>
+        <div className={editorFooter}>
+          <button className={addComponentButton} onClick={handleAddComponent}>
             <Plus /> <span>Add Component</span>
           </button>
         </div>

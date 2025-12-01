@@ -5,8 +5,6 @@ import { type ComponentProps, type ComponentItem } from "../../registry";
 import {
   componentCard,
   componentCardName,
-  miniPreview,
-  thumbnail,
 } from "../component-palette/component-palette.css";
 import { ComponentPreview } from "./component-preview";
 
@@ -52,15 +50,11 @@ export function DraggableComponentCard({
       {...attributes}
     >
       {/* 미니 프리뷰 - 실제로 렌더링 */}
-      <div className={thumbnail()}>
-        <div className={miniPreview}>
-          <ComponentPreview
-            component={component}
-            meta={meta}
-            props={defaultProps}
-          />
-        </div>
-      </div>
+      <ComponentPreview
+        component={component}
+        meta={meta}
+        props={defaultProps}
+      />
       <span className={componentCardName}>{meta.component}</span>
     </div>
   );
