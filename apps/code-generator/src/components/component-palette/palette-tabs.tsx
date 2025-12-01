@@ -1,4 +1,5 @@
 import { type PaletteTab } from "./component-palette";
+import { paletteTabs, paletteTab } from "./component-palette.css";
 
 interface PaletteTabsProps {
   activeTab: PaletteTab;
@@ -6,16 +7,16 @@ interface PaletteTabsProps {
 }
 export function PaletteTabs({ activeTab, setActiveTab }: PaletteTabsProps) {
   return (
-    <div className="palette-tabs">
+    <div className={paletteTabs}>
       <button
-        className={`palette-tab ${activeTab === "components" ? "active" : ""}`}
+        className={paletteTab({ active: activeTab === "components" })}
         onClick={() => setActiveTab("components")}
       >
         <span className="tab-icon">📦</span>
         <span>Components</span>
       </button>
       <button
-        className={`palette-tab ${activeTab === "templates" ? "active" : ""}`}
+        className={paletteTab({ active: activeTab === "templates" })}
         onClick={() => setActiveTab("templates")}
       >
         <span className="tab-icon">✨</span>
