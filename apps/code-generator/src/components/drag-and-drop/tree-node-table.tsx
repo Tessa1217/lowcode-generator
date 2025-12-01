@@ -8,7 +8,6 @@ import { TableActionButtons } from "./tree-node-table-actions";
 import { TableBody } from "./tree-node-table-body";
 import { TableHead } from "./tree-node-table-head";
 import { TreeNodeActionsPortal } from "./tree-node-actions-portal";
-import "./tree-node-table.css";
 
 interface TableNodeTreeProps {
   rootNode: TreeNode;

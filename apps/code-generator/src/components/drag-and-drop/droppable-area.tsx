@@ -1,7 +1,7 @@
 import { useDroppable } from "@dnd-kit/core";
 import { cloneElement, isValidElement, type RefObject } from "react";
-import "./droppable-area.css";
 import { cn } from "@packages/ui";
+import { droppableArea } from "./tree-node.css";
 
 interface DroppableAreaProps {
   nodeId: string;
@@ -61,8 +61,7 @@ const DroppableArea = ({
     "data-droppable-over": isOver,
     className: cn(
       childElement.props.className,
-      "droppable-area",
-      isOver && "drag-over"
+      droppableArea({ dragging: isOver })
     ),
     style: {
       ...childElement.props.style,

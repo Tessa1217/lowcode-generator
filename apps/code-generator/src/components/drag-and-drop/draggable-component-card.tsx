@@ -2,6 +2,12 @@ import { type MouseEvent } from "react";
 import { useDraggable } from "@dnd-kit/core";
 import { getDefaultProps } from "../../utils/getDefaultProps";
 import { type ComponentProps, type ComponentItem } from "../../registry";
+import {
+  componentCard,
+  componentCardName,
+  miniPreview,
+  thumbnail,
+} from "../component-palette/component-palette.css";
 import { ComponentPreview } from "./component-preview";
 
 export interface ComponentCardProps extends ComponentItem {
@@ -38,9 +44,7 @@ export function DraggableComponentCard({
 
   return (
     <div
-      className={`component-card ${isDragging ? "dragging" : ""} ${
-        isSelected ? "selected" : ""
-      }`}
+      className={componentCard({ isDragging, isSelected })}
       ref={setNodeRef}
       style={{ opacity: isDragging ? 0.3 : 1 }}
       onClick={handleClick}
@@ -48,8 +52,8 @@ export function DraggableComponentCard({
       {...attributes}
     >
       {/* 미니 프리뷰 - 실제로 렌더링 */}
-      <div className="thumbnail">
-        <div className="mini-preview">
+      <div className={thumbnail()}>
+        <div className={miniPreview}>
           <ComponentPreview
             component={component}
             meta={meta}
@@ -57,7 +61,7 @@ export function DraggableComponentCard({
           />
         </div>
       </div>
-      <span className="component-name">{meta.component}</span>
+      <span className={componentCardName}>{meta.component}</span>
     </div>
   );
 }

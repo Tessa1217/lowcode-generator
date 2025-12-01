@@ -10,7 +10,7 @@ import { type TreeNode } from "../../types";
 import { TableNodeTree } from "./tree-node-table";
 import { TreeNodeContainer } from "./tree-node-container";
 import { TreeNodeInline } from "./tree-node-inline";
-import "./tree-node.css";
+import { emptyDropZone } from "./tree-node.css";
 
 export interface BaseNodeProps {
   node: TreeNode;
@@ -106,7 +106,7 @@ function TextNode({ node }: { node: TreeNode }) {
 
 // 빈 드롭 존
 function EmptyDropZone() {
-  return <div className="empty-drop-zone">Drop here to nest</div>;
+  return <div className={emptyDropZone}>Drop here to nest</div>;
 }
 
 // 트리 노드 컴포넌트
