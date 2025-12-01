@@ -8,7 +8,7 @@ import { appLayout, main, mainSection } from "./App.css";
 function App() {
   const APP_TABS = ["Canvas", "Tree", "Code"];
 
-  const { tabs, activeTab, changeTab, isPending } = useTabTransition(APP_TABS);
+  const { tabs, activeTab, changeTab } = useTabTransition(APP_TABS);
 
   return (
     <>
@@ -18,7 +18,7 @@ function App() {
           <main className={main}>
             <TabList tabs={tabs} activeTab={activeTab} changeTab={changeTab} />
             <section className={mainSection}>
-              <TabContent activeTab={activeTab} isPending={isPending} />
+              <TabContent activeTab={activeTab} />
             </section>
           </main>
         </DragAndDropContext>
