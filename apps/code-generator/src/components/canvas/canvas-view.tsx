@@ -3,6 +3,7 @@ import { TreeRenderer } from "../drag-and-drop/tree-renderer";
 import { useDragAndDrop } from "../../hooks/useDragAndDrop";
 import { useTreeStore } from "../../store/treeStore";
 import { useZoomControl } from "../../hooks/useZoomControl";
+import { useCanvasMove } from "../../hooks/useCanvasMove";
 import { useKeyboardShortcuts } from "../../hooks/useKeyboardShortcuts";
 import { PropertyEditor } from "../property/property-editor";
 import { ZoomControl } from "./zoom-control";
@@ -11,7 +12,6 @@ import {
   canvasView,
   componentCanvas,
   canvasInner,
-  emptyCanvas,
   canvasToolbar,
 } from "./canvas-view.css";
 
@@ -25,35 +25,45 @@ export function CanvasView() {
   const { scale, handleWheel, zoomIn, zoomOut, resetZoom } = useZoomControl();
   const { selectedNode, updateNodeProps } = useTreeStore();
   useKeyboardShortcuts();
+  const {
+    dragging,
+    offset,
+    panMode,
+    togglePanMode,
+    onMouseDown,
+    onMouseMove,
+    onMouseUp,
+  } = useCanvasMove();
 
   return (
     <div className={canvasView}>
       <div
         ref={setNodeRef}
         onWheel={handleWheel}
-        className={componentCanvas({ isOver })}
+        className={componentCanvas({ isOver, panMode, dragging })}
+        onMouseDown={onMouseDown}
+        onMouseMove={onMouseMove}
+        onMouseUp={onMouseUp}
       >
         <div
-          className={canvasInner}
+          className={canvasInner({ panMode, dragging })}
           style={{
-            transform: `scale(${scale})`,
+            transform: `translate(${offset.x}px, ${offset.y}px) scale(${scale})`,
           }}
         >
-          {tree.length === 0 ? (
-            <div className={emptyCanvas}>Drag components from the palette</div>
-          ) : (
-            <TreeRenderer nodes={tree} />
-          )}
+          <TreeRenderer nodes={tree} panMode={panMode} />
         </div>
-        <div className={canvasToolbar}>
-          <HistoryControls />
-          <ZoomControl
-            scale={scale}
-            onZoomIn={zoomIn}
-            onZoomOut={zoomOut}
-            onReset={resetZoom}
-          />
-        </div>
+      </div>
+      <div className={canvasToolbar}>
+        <HistoryControls />
+        <ZoomControl
+          panMode={panMode}
+          onPanToggle={togglePanMode}
+          scale={scale}
+          onZoomIn={zoomIn}
+          onZoomOut={zoomOut}
+          onReset={resetZoom}
+        />
       </div>
       <PropertyEditor node={selectedNode} onChange={updateNodeProps} />
     </div>

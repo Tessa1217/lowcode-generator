@@ -5,7 +5,10 @@ import { getComponentMeta } from "../registry";
 import { type TreeNode } from "../types";
 import { useTreeStore } from "../store/treeStore";
 
-export const useSortableDragAndHover = (rootNode: TreeNode) => {
+export const useSortableDragAndHover = (
+  rootNode: TreeNode,
+  panMode: boolean
+) => {
   const { hoveredNodeId, setHoveredNode } = useTreeStore();
 
   const meta = getComponentMeta(rootNode.componentName);
@@ -29,6 +32,7 @@ export const useSortableDragAndHover = (rootNode: TreeNode) => {
       rootNode,
       canHaveChildren: meta?.hasChildren,
     },
+    disabled: panMode,
   });
 
   // action쪽 hover 시 기존 노드에서 벗어나서 버튼 hover 풀리는 효과로 인해 action hover에 대해서 관리 필요

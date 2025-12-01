@@ -8,6 +8,7 @@ export const propertyEditor = recipe({
     flex: "0 0 320px",
     flexDirection: "column",
     position: "relative",
+    borderLeft: `1px solid ${vars.color.border.base.subtle}`,
     "@media": {
       "(max-width: 1024px)": {
         flex: "1 1 auto",

@@ -6,6 +6,7 @@ export const canvasView = style({
   display: "flex",
   position: "relative",
   height: "100%",
+  overflow: "hidden",
   "@media": {
     "(max-width: 1024px)": {
       flexDirection: "column",
@@ -20,7 +21,7 @@ export const componentCanvas = recipe({
     padding: vars.sizing["5"],
     border: `2px dashed ${vars.color.background.tertiary.default}`,
     borderRadius: vars.sizing["2.5"],
-    overflow: "auto",
+    overflow: "hidden",
     boxSizing: "border-box",
     transition: "border-color 0.2s ease",
     ":hover": {
@@ -34,14 +35,36 @@ export const componentCanvas = recipe({
     },
   },
   variants: {
+    panMode: {
+      true: {},
+      false: {},
+    },
+    dragging: {
+      true: {},
+      false: {},
+    },
     isOver: {
       true: {
-        borderColor: vars.color.teal["600"],
-        backgroundColor: vars.color.teal["100"],
+        borderColor: vars.color.border.tertiary,
+        backgroundColor: vars.color.background.tertiary.subtle,
       },
       false: {},
     },
   },
+  compoundVariants: [
+    {
+      variants: { panMode: true, dragging: true },
+      style: {
+        cursor: "grabbing",
+      },
+    },
+    {
+      variants: { panMode: true, dragging: false },
+      style: {
+        cursor: "grab",
+      },
+    },
+  ],
   defaultVariants: {
     isOver: false,
   },
@@ -49,10 +72,39 @@ export const componentCanvas = recipe({
 
 export type ComponentCanvasVariants = RecipeVariants<typeof componentCanvas>;
 
-export const canvasInner = style({
-  transformOrigin: "top left",
-  willChange: "transform",
-  transition: "transform 0.1s ease-out",
+export const canvasInner = recipe({
+  base: {
+    transformOrigin: "top left",
+    width: "100%",
+    height: "100%",
+    cursor: "default",
+    willChange: "transform",
+    transition: "transform 0.1s ease-out",
+  },
+  variants: {
+    panMode: {
+      true: {},
+      false: {},
+    },
+    dragging: {
+      true: {},
+      false: {},
+    },
+  },
+  compoundVariants: [
+    {
+      variants: { panMode: true, dragging: true },
+      style: {
+        cursor: "grabbing",
+      },
+    },
+    {
+      variants: { panMode: true, dragging: false },
+      style: {
+        cursor: "grab",
+      },
+    },
+  ],
 });
 
 export const emptyCanvas = style({
@@ -174,6 +226,39 @@ export const zoomLevel = style({
   textAlign: "center",
   color: vars.color.text.base.default,
   userSelect: "none",
+});
+
+export const panButton = recipe({
+  base: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    width: vars.sizing["8"],
+    height: vars.sizing["8"],
+    padding: vars.sizing["0"],
+    background: "transparent",
+    border: "none",
+    borderRadius: vars.sizing["1"],
+    cursor: "pointer",
+    transition: "all 0.2s",
+    ":hover": {
+      background: vars.color.background.surface.subtle,
+      color: vars.color.text.base.default,
+    },
+  },
+  variants: {
+    active: {
+      true: {
+        background: vars.color.background.tertiary.default,
+        borderColor: vars.color.border.tertiary,
+        color: vars.color.white["100"],
+        ":hover": {
+          background: vars.color.background.tertiary.subtle,
+          borderColor: vars.color.border.tertiary,
+        },
+      },
+    },
+  },
 });
 
 export type HistoryBtnVariants = RecipeVariants<typeof historyBtn>;

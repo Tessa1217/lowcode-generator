@@ -1,5 +1,5 @@
 import { globalStyle, keyframes, style } from "@vanilla-extract/css";
-import { vars } from "@packages/vanilla-extract-config";
+import { typographyRecipe, vars } from "@packages/vanilla-extract-config";
 import { recipe } from "@vanilla-extract/recipes";
 
 export const treeNodeWrapper = style({
@@ -43,20 +43,20 @@ export const treeNodeButton = style({
   width: vars.sizing["6"],
   height: vars.sizing["6"],
   padding: vars.sizing["0"],
-  backgroundColor: vars.color.background.base.inverse,
+  backgroundColor: vars.color.background.surface.elevated,
   border: `1px solid ${vars.color.border.base.subtle}`,
   borderRadius: vars.sizing["full"],
   cursor: "pointer",
   transition: "all 0.2s ease",
   boxShadow: vars.shadow.elevation3,
   selectors: {
-    "&:hover": {
+    '&:not([aria-disabled="true"]):hover': {
       transform: "scale(1.1)",
       background: vars.color.background.tertiary.default,
       color: vars.color.white["100"],
       boxShadow: vars.shadow.elevation4,
     },
-    "&:active": {
+    '&:not([aria-disabled="true"]):active': {
       transform: "scale(0.95)",
     },
     "&:disabled": {
@@ -94,6 +94,9 @@ export const treeNodeDragHandle = recipe({
       "&:active": {
         cursor: "grabbing",
       },
+      '&[aria-disabled="true"]': {
+        cursor: "not-allowed",
+      },
     },
   },
   variants: {
@@ -110,6 +113,10 @@ export const treeNodeDragHandle = recipe({
 globalStyle(`${treeNodeDragHandle()} svg`, {
   width: vars.sizing["4"],
   height: vars.sizing["4"],
+});
+
+globalStyle(`${treeNodeDragHandle()}[aria-disabled="true"] svg`, {
+  color: vars.color.text.disabled,
 });
 
 export const treeNodeDeleteButton = style({
@@ -132,34 +139,39 @@ globalStyle(`${treeNodeDeleteButton}:hover svg`, {
 });
 
 export const tableButton = recipe({
-  base: {
-    position: "absolute",
-    zIndex: "10",
-    display: "flex",
-    width: vars.sizing["6"],
-    height: vars.sizing["6"],
-    padding: vars.sizing["0"],
-    backgroundColor: vars.color.background.base.inverse,
-    border: `1px solid ${vars.color.border.base.subtle}`,
-    borderRadius: vars.sizing["full"],
-    cursor: "pointer",
-    transition: "all 0.2s ease",
-    opacity: "0",
-    visibility: "hidden",
-    pointerEvents: "none",
-    boxShadow: vars.shadow.elevation3,
-    selectors: {
-      "&:hover": {
-        background: vars.color.background.base.default,
-        borderColor: vars.color.border.tertiary,
-        color: vars.color.text.tertiary.inverse,
-        transform: "scale(1.1)",
-      },
-      "&:active": {
-        transform: "scale(0.95)",
+  base: [
+    {
+      position: "absolute",
+      zIndex: "10",
+      display: "flex",
+      width: vars.sizing["6"],
+      height: vars.sizing["6"],
+      padding: vars.sizing["0"],
+      backgroundColor: vars.color.background.surface.elevated,
+      alignItems: "center",
+      justifyContent: "center",
+      border: `1px solid ${vars.color.border.base.subtle}`,
+      borderRadius: vars.sizing["full"],
+      cursor: "pointer",
+      transition: "all 0.2s ease",
+      opacity: "0",
+      visibility: "hidden",
+      pointerEvents: "none",
+      boxShadow: vars.shadow.elevation3,
+      selectors: {
+        "&:hover": {
+          background: vars.color.background.base.default,
+          borderColor: vars.color.border.tertiary,
+          color: vars.color.text.tertiary.inverse,
+          transform: "scale(1.1)",
+        },
+        "&:active": {
+          transform: "scale(0.95)",
+        },
       },
     },
-  },
+    typographyRecipe({ role: "textXsSemibold" }),
+  ],
   variants: {
     hovered: {
       true: { opacity: "1", visibility: "visible", pointerEvents: "auto" },
@@ -170,7 +182,7 @@ export const tableButton = recipe({
 globalStyle(`${tableButton()} svg`, {
   width: vars.sizing["4"],
   height: vars.sizing["4"],
-  color: vars.color.text.danger.default,
+  color: vars.color.text.tertiary.default,
 });
 
 globalStyle(`${tableButton()}:hover svg`, {
@@ -220,9 +232,8 @@ export const rowAddButton = recipe({
 
 export const tableDeleteButton = recipe({
   base: {
-    fontSize: "10px",
-    width: vars.sizing["4"],
-    height: vars.sizing["4"],
+    width: vars.sizing["5"],
+    height: vars.sizing["5"],
     color: vars.color.text.danger.default,
     selectors: {
       "&:hover": {
@@ -246,6 +257,10 @@ export const tableDeleteButton = recipe({
       },
     },
   },
+});
+
+globalStyle(`${tableDeleteButton()} svg`, {
+  color: vars.color.text.danger.default,
 });
 
 globalStyle(`${tableDeleteButton()}:hover svg`, {

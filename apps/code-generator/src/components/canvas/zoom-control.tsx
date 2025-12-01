@@ -1,8 +1,15 @@
-import { Eraser, PlusCircle, MinusCircle } from "lucide-react";
-import { zoomControl, zoomButton, zoomLevel } from "./canvas-view.css";
+import { Eraser, PlusCircle, MinusCircle, HandGrabIcon } from "lucide-react";
+import {
+  zoomControl,
+  zoomButton,
+  zoomLevel,
+  panButton,
+} from "./canvas-view.css";
 
 interface ZoomControlProps {
   scale: number;
+  panMode: boolean;
+  onPanToggle: () => void;
   onZoomIn: () => void;
   onZoomOut: () => void;
   onReset: () => void;
@@ -10,6 +17,8 @@ interface ZoomControlProps {
 
 export function ZoomControl({
   scale,
+  panMode,
+  onPanToggle,
   onZoomIn,
   onZoomOut,
   onReset,
@@ -18,6 +27,14 @@ export function ZoomControl({
 
   return (
     <div className={zoomControl}>
+      <button
+        className={panButton({ active: panMode })}
+        onClick={onPanToggle}
+        title="Grab"
+        aria-label="Grab"
+      >
+        <HandGrabIcon size={18} />
+      </button>
       <button
         className={zoomButton}
         onClick={onZoomIn}
