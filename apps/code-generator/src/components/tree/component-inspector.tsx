@@ -11,56 +11,68 @@ import {
   componentPropsGroupTitle,
   componentPropsGroupNoValue,
 } from "./tree-view.css";
-type ComponentInspectorProps = {
+
+interface ComponentInspectorProps {
   node: Node | null;
-};
+}
 
 export function ComponentInspector({ node }: ComponentInspectorProps) {
-  if (!node)
+  if (!node) {
     return (
       <div className={emptyPropsContainer}>
         속성을 확인할 노드를 선택해주세요.
       </div>
     );
+  }
 
   const data = node.data as ComponentNodeData;
+  const metaEntries = data.meta ? Object.entries(data.meta) : [];
+  const propsEntries = data.props ? Object.entries(data.props) : [];
 
   return (
     <div className={componentPropsContainer}>
       <h3 className={componentPropsTitle}>{data.label}</h3>
       <PropertySection title="Metadata">
-        {data.meta && Object.keys(data.meta).length ? (
-          Object.entries(data.meta)
-            .filter(([_, value]) => typeof value === "string")
-            .map(([key, value]) => (
-              <div key={key} className={componentPropsGroup}>
-                <span className={componentPropsGroupTitle}>{key}</span>
-                <p>{value}</p>
-              </div>
-            ))
-        ) : (
-          <div className={componentPropsGroupNoValue}>
-            메타 데이터가 없습니다.
-          </div>
-        )}
+        <PropertyList
+          entries={metaEntries}
+          emptyMessage="메타 데이터가 없습니다."
+          filterFn={([_, value]) => typeof value === "string"}
+        />
       </PropertySection>
       <PropertySection title="Properties">
-        {data.props && Object.keys(data.props).length ? (
-          Object.entries(data.props).map(([key, value]) => (
-            <div key={key} className={componentPropsGroup}>
-              <span className={componentPropsGroupTitle}>{key}</span>
-              <div>
-                <ComponentPropertyRenderer value={value} />
-              </div>
-            </div>
-          ))
-        ) : (
-          <div className={componentPropsGroupNoValue}>
-            지정 가능한 속성이 없습니다.
-          </div>
-        )}
+        <PropertyList
+          entries={propsEntries}
+          emptyMessage="지정 가능한 속성이 없습니다."
+        />
       </PropertySection>
     </div>
+  );
+}
+
+type PropertyEntry = [string, unknown];
+
+interface PropertyListProps {
+  entries: PropertyEntry[];
+  emptyMessage: string;
+  filterFn?: (entry: PropertyEntry) => boolean;
+}
+
+function PropertyList({ entries, emptyMessage, filterFn }: PropertyListProps) {
+  const filteredEntries = filterFn ? entries.filter(filterFn) : entries;
+
+  if (!filteredEntries.length) {
+    return <div className={componentPropsGroupNoValue}>{emptyMessage}</div>;
+  }
+
+  return (
+    <>
+      {filteredEntries.map(([key, value]) => (
+        <div key={key} className={componentPropsGroup}>
+          <span className={componentPropsGroupTitle}>{key}</span>
+          <ComponentPropertyRenderer value={value} />
+        </div>
+      ))}
+    </>
   );
 }
 
