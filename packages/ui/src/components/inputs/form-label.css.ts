@@ -7,7 +7,7 @@ export const formLabel = recipe({
   base: [
     typographyRecipe({ role: "textMdRegular" }),
     {
-      color: vars.color.text.primary.default,
+      color: vars.color.text.base.default,
       display: "flex",
       alignItems: "center",
       gap: vars.sizing["1"],
