@@ -1,3 +1,9 @@
+import {
+  componentPropsTable,
+  componentPropsNestedObject,
+  nestedObjectPair,
+} from "./tree-view.css";
+
 export function ComponentPropertyRenderer({ value }: { value: unknown }) {
   if (typeof value === "string" || typeof value === "number") {
     return <p>{value.toString() || "-"}</p>;
@@ -14,7 +20,7 @@ export function ComponentPropertyRenderer({ value }: { value: unknown }) {
     if (typeof value[0] === "object" && value[0] !== null) {
       const keys = Object.keys(value[0]);
       return (
-        <table className="component-props-table">
+        <table className={componentPropsTable}>
           <thead>
             <tr>
               {keys.map((k) => (
@@ -46,9 +52,9 @@ export function ComponentPropertyRenderer({ value }: { value: unknown }) {
   // 일반 객체인 경우
   if (typeof value === "object" && value !== null) {
     return (
-      <div className="component-props-nested-object">
+      <div className={componentPropsNestedObject}>
         {Object.entries(value).map(([k, v]) => (
-          <div key={k} className="nested-object-pair">
+          <div key={k} className={nestedObjectPair}>
             <strong>{k}</strong>: {<ComponentPropertyRenderer value={v} />}
           </div>
         ))}

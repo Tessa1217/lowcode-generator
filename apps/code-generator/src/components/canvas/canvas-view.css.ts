@@ -6,6 +6,11 @@ export const canvasView = style({
   display: "flex",
   position: "relative",
   height: "100%",
+  "@media": {
+    "(max-width: 1024px)": {
+      flexDirection: "column",
+    },
+  },
 });
 
 export const componentCanvas = recipe({
@@ -20,6 +25,12 @@ export const componentCanvas = recipe({
     transition: "border-color 0.2s ease",
     ":hover": {
       borderColor: vars.color.background.tertiary.bold,
+    },
+    "@media": {
+      "(max-width: 1024px)": {
+        flex: "1 1 auto",
+        width: "100%",
+      },
     },
   },
   variants: {
