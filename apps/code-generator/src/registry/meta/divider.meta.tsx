@@ -14,19 +14,19 @@ export const DividerMeta: ComponentMetaDefinition = {
   ),
   props: {
     orientation: {
-      control: "radio",
+      control: "select",
       options: ["horizontal", "vertical"],
       default: "horizontal",
       description: "구분선 방향",
     },
     variant: {
-      control: "radio",
+      control: "select",
       options: ["solid", "dashed"],
       default: "solid",
       description: "구분선 변형",
     },
     color: {
-      control: "radio",
+      control: "select",
       options: ["default", "subtle"],
       default: "default",
       description: "구분선 색상",

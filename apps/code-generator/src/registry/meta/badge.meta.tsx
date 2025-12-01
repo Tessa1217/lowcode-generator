@@ -11,7 +11,7 @@ export const BadgeMeta: ComponentMetaDefinition = {
     <Component {...props}>{props.children || "Badge"}</Component>
   ),
   props: {
-    variant: {
+    color: {
       control: "select",
       options: [...BADGE_COLOR_VARIANTS],
       default: "default",
