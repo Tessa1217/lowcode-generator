@@ -5,8 +5,16 @@ import {
   type DraggableSyntheticListeners,
 } from "@dnd-kit/core";
 import { GripVertical, Trash2, MousePointer2 } from "lucide-react";
+import { cn } from "@packages/ui";
 import { type TreeNode } from "../../types";
 import { useTreeStore } from "../../store/treeStore";
+import {
+  treeNodeButton,
+  treeNodeActionsPortal,
+  treeNodeDeleteButton,
+  treeNodeDragHandle,
+  treeNodeSelectButton,
+} from "./tree-node.css";
 
 interface TreeNodeActionsPortalProps {
   targetRef: React.RefObject<HTMLElement | null>;
@@ -114,7 +122,7 @@ export function TreeNodeActionsPortal({
 
   return createPortal(
     <div
-      className="tree-node-actions-portal"
+      className={treeNodeActionsPortal}
       style={{
         position: "absolute",
         top: `${position.top}px`,
@@ -127,7 +135,10 @@ export function TreeNodeActionsPortal({
       onMouseLeave={() => setIsPortalHovered(false)}
     >
       <button
-        className={`tree-node-select-btn ${isSelected ? "selected" : ""}`}
+        className={cn(
+          treeNodeButton,
+          treeNodeSelectButton({ selected: isSelected })
+        )}
         onClick={onSelect}
         aria-label={`${componentName}선택`}
         title="선택"
@@ -137,7 +148,10 @@ export function TreeNodeActionsPortal({
       {/* 드래그 핸들 */}
       <button
         ref={setActivatorNodeRef}
-        className={`tree-node-drag-handle ${isDragging ? "dragging" : ""}`}
+        className={cn(
+          treeNodeButton,
+          treeNodeDragHandle({ dragging: isDragging })
+        )}
         {...dragAttributes}
         {...dragListeners}
         aria-label={`${componentName} 드래그`}
@@ -148,7 +162,7 @@ export function TreeNodeActionsPortal({
       {/* 삭제 버튼 */}
       {onDelete && (
         <button
-          className="tree-node-delete-btn"
+          className={cn(treeNodeButton, treeNodeDeleteButton)}
           onClick={onDelete}
           aria-label={`${componentName} 삭제`}
           title="삭제"

@@ -1,37 +1,52 @@
+import { type ComponentMeta, type ComponentProps } from "../../registry";
 import {
-  type ComponentType,
-  type ComponentName,
-  type ComponentMeta,
-} from "@packages/ui";
-import { getDefaultProps } from "../../utils/getDefaultProps";
+  thumbnail,
+  miniPreview,
+} from "../component-palette/component-palette.css";
 
 export interface ComponentPreviewProps {
-  componentName: ComponentName;
-  component: ComponentType;
+  component: React.ElementType;
   meta: ComponentMeta;
-  props?: Record<string, unknown>;
+  props?: ComponentProps;
 }
-export function ComponentPreview({
-  componentName,
-  component,
-  meta,
-  props,
-}: ComponentPreviewProps) {
-  const Component = component;
-  const defaultProps = getDefaultProps(componentName);
+
+interface PreviewFrameProps {
+  children: React.ReactNode;
+}
+
+export function PreviewFrame({ children }: PreviewFrameProps) {
   return (
-    <div className="thumbnail">
-      <div className="mini-preview">
-        {meta.renderPreview ? (
-          meta.renderPreview(Component, { ...defaultProps, ...(props || {}) })
-        ) : meta.hasChildren ? (
-          <Component {...defaultProps} {...(props || {})}>
-            Preview
-          </Component>
-        ) : (
-          <Component {...defaultProps} {...(props || {})} />
-        )}
-      </div>
+    <div className={thumbnail()}>
+      <div className={miniPreview}>{children}</div>
     </div>
+  );
+}
+
+export function ComponentPreview({
+  component: Component,
+  meta,
+  props = {},
+}: ComponentPreviewProps) {
+  if (meta.renderPreview) {
+    return (
+      <PreviewFrame>
+        <>{meta.renderPreview(Component, props)}</>
+      </PreviewFrame>
+    );
+    return;
+  }
+
+  if (meta.hasChildren) {
+    return (
+      <PreviewFrame>
+        <Component {...props}>Preview</Component>
+      </PreviewFrame>
+    );
+  }
+
+  return (
+    <PreviewFrame>
+      <Component {...props} />
+    </PreviewFrame>
   );
 }

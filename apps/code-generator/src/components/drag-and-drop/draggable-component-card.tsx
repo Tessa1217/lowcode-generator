@@ -1,30 +1,33 @@
 import { type MouseEvent } from "react";
 import { useDraggable } from "@dnd-kit/core";
 import { getDefaultProps } from "../../utils/getDefaultProps";
+import { type ComponentProps, type ComponentItem } from "../../registry";
 import {
-  ComponentPreview,
-  type ComponentPreviewProps,
-} from "./component-preview";
+  componentCard,
+  componentCardName,
+} from "../component-palette/component-palette.css";
+import { ComponentPreview } from "./component-preview";
 
-export interface ComponentCardProps extends ComponentPreviewProps {
+export interface ComponentCardProps extends ComponentItem {
+  props?: ComponentProps;
   onClick?: () => void;
   isSelected?: boolean;
 }
 
 export function DraggableComponentCard({
-  componentName,
+  name,
   component,
   meta,
   onClick,
   isSelected,
 }: ComponentCardProps) {
-  const defaultProps = getDefaultProps(componentName);
+  const defaultProps = getDefaultProps(name);
 
   const { attributes, listeners, setNodeRef, isDragging } = useDraggable({
-    id: `palette-item-${componentName}`,
+    id: `palette-item-${name}`,
     data: {
       type: "palette-item",
-      componentName: componentName,
+      componentName: name,
       props: defaultProps,
       meta,
     },
@@ -39,9 +42,7 @@ export function DraggableComponentCard({
 
   return (
     <div
-      className={`component-card ${isDragging ? "dragging" : ""} ${
-        isSelected ? "selected" : ""
-      }`}
+      className={componentCard({ isDragging, isSelected })}
       ref={setNodeRef}
       style={{ opacity: isDragging ? 0.3 : 1 }}
       onClick={handleClick}
@@ -50,11 +51,11 @@ export function DraggableComponentCard({
     >
       {/* 미니 프리뷰 - 실제로 렌더링 */}
       <ComponentPreview
-        componentName={componentName}
         component={component}
         meta={meta}
+        props={defaultProps}
       />
-      <span className="component-name">{meta.component}</span>
+      <span className={componentCardName}>{meta.component}</span>
     </div>
   );
 }

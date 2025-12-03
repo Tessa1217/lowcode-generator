@@ -4,17 +4,9 @@ import { CodeEditorView } from "../code-editor/code-editor-view";
 
 interface TabContentProps {
   activeTab: string | undefined;
-  isPending: boolean;
 }
 
-export function TabContent({ activeTab, isPending }: TabContentProps) {
-  if (isPending) {
-    return (
-      <div className="tab-fallback">
-        <span className="spinner" /> Loading {activeTab}...
-      </div>
-    );
-  }
+export function TabContent({ activeTab }: TabContentProps) {
   switch (activeTab) {
     case "Canvas":
       return <CanvasView />;

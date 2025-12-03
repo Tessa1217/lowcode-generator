@@ -1,7 +1,12 @@
-import { getComponentMeta } from "@packages/ui";
-import { type TreeNode } from "../../types/index";
+import { getComponentMeta } from "../../registry";
+import { type TreeNode } from "../../types";
 import { PropertyField } from "./property-field";
-import "./property-editor.css";
+import {
+  propertyEditor,
+  propertyEditorHeader,
+  componentDescription,
+  propertyFields,
+} from "./property-editor.css";
 
 interface PropertyEditorProps {
   node: TreeNode | null;
@@ -28,17 +33,17 @@ export function PropertyEditor({ node, onChange }: PropertyEditorProps) {
   };
 
   return (
-    <div className="property-editor">
+    <div className={propertyEditor({})}>
       {/* 헤더 개선 */}
-      <div className="property-editor-header">
+      <div className={propertyEditorHeader}>
         <h3>{meta.component}</h3>
         {meta.description && (
-          <p className="component-description">{meta.description}</p>
+          <p className={componentDescription}>{meta.description}</p>
         )}
       </div>
 
       {/* 속성 필드들 */}
-      <div className="property-fields">
+      <div className={propertyFields}>
         {Object.entries(meta.props).map(([propName, propMeta]) => (
           <PropertyField
             key={propName}

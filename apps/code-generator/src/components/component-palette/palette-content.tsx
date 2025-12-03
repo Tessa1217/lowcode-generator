@@ -1,11 +1,12 @@
-import {
-  ComponentRegistry,
-  ComponentsByCategory,
-  type ComponentName,
-  type ComponentRegistryItem,
-} from "@packages/ui";
 import { useState } from "react";
+import {
+  COMPONENT_CATEGORIES,
+  getComponentsByCategory,
+  type ComponentName,
+} from "../../registry";
 import { DraggableComponentCard } from "../drag-and-drop/draggable-component-card";
+import { PaletteCategory } from "./palette-category";
+import { paletteContent, componentGrid } from "./component-palette.css";
 
 interface PaletteContentProps {
   selectedComponent: ComponentName | null;
@@ -24,47 +25,35 @@ export function PaletteContent({
     setOpenCategories((prev) => ({ ...prev, [category]: !prev[category] }));
   };
 
+  const categories = Object.values(COMPONENT_CATEGORIES);
+
   return (
-    <div className="palette-content">
-      {Object.entries(ComponentsByCategory).map(([category, components]) => (
-        <div key={category} className="category" data-category={category}>
-          <h4
-            className={`category-title ${
-              openCategories[category] ? "open" : ""
-            }`}
-            onClick={() => toggleCategory(category)}
+    <div className={paletteContent}>
+      {categories.map((category) => {
+        const components = getComponentsByCategory(category);
+        const isOpen = openCategories[category] || false;
+        return (
+          <PaletteCategory
+            key={category}
+            category={category}
+            isOpen={isOpen}
+            toggleCategory={toggleCategory}
           >
-            {category}
-          </h4>
-          <div
-            className={`category-content ${
-              openCategories[category] ? "open" : ""
-            }`}
-          >
-            <div className="component-grid">
-              {(components as ComponentName[])
-                .filter(
-                  (name) =>
-                    !(ComponentRegistry[name] as ComponentRegistryItem)?.hidden
-                )
-                .map((name) => {
-                  const item = ComponentRegistry[name];
-                  const Component = item.component;
-                  return (
-                    <DraggableComponentCard
-                      key={name}
-                      componentName={name}
-                      component={Component}
-                      onClick={() => onClick(name)}
-                      isSelected={selectedComponent === name}
-                      meta={item.meta}
-                    />
-                  );
-                })}
+            <div className={componentGrid({ mode: "component" })}>
+              {components.map(({ name, component, meta }) => (
+                <DraggableComponentCard
+                  key={name}
+                  name={name}
+                  component={component}
+                  meta={meta}
+                  isSelected={selectedComponent === name}
+                  onClick={() => onClick(name)}
+                />
+              ))}
             </div>
-          </div>
-        </div>
-      ))}
+          </PaletteCategory>
+        );
+      })}
     </div>
   );
 }

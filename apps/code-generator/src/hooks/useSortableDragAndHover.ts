@@ -1,11 +1,15 @@
 import { useState } from "react";
-import { getComponentMeta } from "@packages/ui";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import { getComponentMeta } from "../registry";
 import { type TreeNode } from "../types";
 import { useTreeStore } from "../store/treeStore";
+import { isInteractiveElement } from "../utils/isInteractiveElement";
 
-export const useSortableDragAndHover = (rootNode: TreeNode) => {
+export const useSortableDragAndHover = (
+  rootNode: TreeNode,
+  panMode: boolean
+) => {
   const { hoveredNodeId, setHoveredNode } = useTreeStore();
 
   const meta = getComponentMeta(rootNode.componentName);
@@ -29,6 +33,7 @@ export const useSortableDragAndHover = (rootNode: TreeNode) => {
       rootNode,
       canHaveChildren: meta?.hasChildren,
     },
+    disabled: panMode,
   });
 
   // action쪽 hover 시 기존 노드에서 벗어나서 버튼 hover 풀리는 효과로 인해 action hover에 대해서 관리 필요
@@ -57,13 +62,7 @@ export const useSortableDragAndHover = (rootNode: TreeNode) => {
       return; // stopPropagation 하지 않음
     }
 
-    if (
-      el.tagName === "INPUT" ||
-      el.tagName === "BUTTON" ||
-      el.tagName === "TEXTAREA" ||
-      el.closest("input") ||
-      el.closest("button")
-    ) {
+    if (isInteractiveElement(el)) {
       e.stopPropagation();
     }
   };

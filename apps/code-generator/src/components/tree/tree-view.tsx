@@ -1,11 +1,17 @@
 import { useState } from "react";
 import { ReactFlow, type Node } from "@xyflow/react";
 import { useTreeFlow } from "../../hooks/useTreeFlow";
+import { useToggle } from "../../hooks/useToggle";
 import { CustomEdge } from "./component-edge";
 import { ComponentNode } from "./component-node";
 import { ComponentInspector } from "./component-inspector";
 import "@xyflow/react/dist/style.css";
-import "./tree-view.css";
+import {
+  treeViewWrapper,
+  componentTreeFlow,
+  componentInspectorCloseButton,
+  componentInspector,
+} from "./tree-view.css";
 
 const edgeTypes = {
   "component-edge": CustomEdge,
@@ -17,12 +23,12 @@ const nodeTypes = {
 
 export function TreeView() {
   const { nodes, edges } = useTreeFlow();
-  const [hidden, setHidden] = useState<boolean>(false);
+  const { on, toggle } = useToggle(false);
   const [selectedComponent, setSelectedComponent] = useState<Node | null>(null);
 
   return (
-    <div className="tree-view">
-      <div className="component-tree-flow">
+    <div className={treeViewWrapper}>
+      <div className={componentTreeFlow}>
         <ReactFlow
           nodes={nodes}
           edges={edges}
@@ -32,11 +38,11 @@ export function TreeView() {
           fitView
         />
       </div>
-      <button className="close-button" onClick={() => setHidden(!hidden)}>
-        {hidden ? "열기" : "닫기"}
-      </button>
-      <div className={`component-inspector ${hidden && "hide"}`}>
-        <ComponentInspector node={selectedComponent} />
+      <div className={componentInspector({ hidden: on })}>
+        <button className={componentInspectorCloseButton} onClick={toggle}>
+          {on ? "열기" : "닫기"}
+        </button>
+        {!on && <ComponentInspector node={selectedComponent} />}
       </div>
     </div>
   );

@@ -6,6 +6,7 @@ import {
   useSensors,
 } from "@dnd-kit/core";
 import { useDragAndDrop } from "../../hooks/useDragAndDrop";
+import { isInteractiveElement } from "../../utils/isInteractiveElement";
 import { nestedDroppableCollision } from "../../utils/collisionDetection";
 import { DragComponentOverlay } from "./drag-component-overlay";
 
@@ -25,17 +26,12 @@ export function DragAndDropContext({
     eventListenerOptions: { capture: true },
     onPointerDown(event: React.PointerEvent) {
       const target = event.target as HTMLElement;
-      if (
-        target.tagName === "INPUT" ||
-        target.tagName === "BUTTON" ||
-        target.tagName === "TEXTAREA" ||
-        target.closest("input") ||
-        target.closest("button") ||
-        target.closest("textarea")
-      ) {
+
+      if (isInteractiveElement(target)) {
         event.stopPropagation();
         return false; // drag candidate 등록 무시
       }
+
       return true;
     },
   });

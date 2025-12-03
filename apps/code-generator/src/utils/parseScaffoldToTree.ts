@@ -1,7 +1,7 @@
 import type { TreeNode } from "../types";
-import { getComponentMeta, type ComponentName } from "@packages/ui";
 import { Parser } from "acorn";
 import jsx from "acorn-jsx";
+import { getComponentMeta, type ComponentName } from "../registry";
 
 /**
  * meta에서 scaffold를 제공하는 경우 JSX를 AST로 파싱하여 TreeNode[]로 변환

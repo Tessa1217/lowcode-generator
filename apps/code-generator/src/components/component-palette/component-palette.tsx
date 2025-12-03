@@ -1,10 +1,11 @@
-import { type ComponentName } from "@packages/ui";
 import { useState } from "react";
+import { type ComponentName } from "../../registry";
 import { PropertyCanvasEditor } from "../property/property-canvas-editor";
-import { TemplatePalette } from "./template-palette";
+import { TemplateContent } from "./template-content";
 import { PaletteContent } from "./palette-content";
 import { PaletteTabs } from "./palette-tabs";
-import "./component-palette.css";
+import { palette, sidebar, sidebarHeader } from "./component-palette.css";
+// import "./component-palette-old.css";
 
 export type PaletteTab = "components" | "templates";
 
@@ -23,19 +24,19 @@ export function ComponentPalette() {
   };
 
   return (
-    <section className="sidebar">
-      <div className="sidebar-header">
+    <section className={sidebar}>
+      <div className={sidebarHeader}>
         <h2>Component Palette</h2>
       </div>
       <PaletteTabs activeTab={activeTab} setActiveTab={setActiveTab} />
-      <div className="palette">
+      <div className={palette}>
         {activeTab === "components" && (
           <PaletteContent
             selectedComponent={selectedComponent}
             onClick={handleComponentClick}
           />
         )}
-        {activeTab === "templates" && <TemplatePalette />}
+        {activeTab === "templates" && <TemplateContent />}
       </div>
       {selectedComponent && (
         <PropertyCanvasEditor

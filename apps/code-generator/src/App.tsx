@@ -3,22 +3,22 @@ import { ComponentPalette } from "./components/component-palette/component-palet
 import { TabList } from "./components/layout/tab-list";
 import { TabContent } from "./components/layout/tab-content";
 import { useTabTransition } from "./hooks/useTabTransition";
-import "./App.css";
+import { appLayout, main, mainSection } from "./App.css";
 
 function App() {
-  const appTabs = ["Canvas", "Tree", "Code"];
+  const APP_TABS = ["Canvas", "Tree", "Code"];
 
-  const { tabs, activeTab, changeTab, isPending } = useTabTransition(appTabs);
+  const { tabs, activeTab, changeTab } = useTabTransition(APP_TABS);
 
   return (
     <>
-      <div className="app-layout">
+      <div className={appLayout}>
         <DragAndDropContext>
           <ComponentPalette />
-          <main className="main">
+          <main className={main}>
             <TabList tabs={tabs} activeTab={activeTab} changeTab={changeTab} />
-            <section className="main-section">
-              <TabContent activeTab={activeTab} isPending={isPending} />
+            <section className={mainSection}>
+              <TabContent activeTab={activeTab} />
             </section>
           </main>
         </DragAndDropContext>

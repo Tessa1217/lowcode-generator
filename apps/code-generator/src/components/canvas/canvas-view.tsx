@@ -3,11 +3,17 @@ import { TreeRenderer } from "../drag-and-drop/tree-renderer";
 import { useDragAndDrop } from "../../hooks/useDragAndDrop";
 import { useTreeStore } from "../../store/treeStore";
 import { useZoomControl } from "../../hooks/useZoomControl";
+import { useCanvasMove } from "../../hooks/useCanvasMove";
 import { useKeyboardShortcuts } from "../../hooks/useKeyboardShortcuts";
 import { PropertyEditor } from "../property/property-editor";
 import { ZoomControl } from "./zoom-control";
 import { HistoryControls } from "./history-controls";
-import "./canvas-view.css";
+import {
+  canvasView,
+  componentCanvas,
+  canvasInner,
+  canvasToolbar,
+} from "./canvas-view.css";
 
 export function CanvasView() {
   const { setNodeRef, isOver } = useDroppable({
@@ -19,36 +25,45 @@ export function CanvasView() {
   const { scale, handleWheel, zoomIn, zoomOut, resetZoom } = useZoomControl();
   const { selectedNode, updateNodeProps } = useTreeStore();
   useKeyboardShortcuts();
-
-  const innerCanvasStyle = {
-    transform: `scale(${scale})`,
-    transformOrigin: "top left",
-    transition: "transform 0.1s ease-out",
-  };
+  const {
+    dragging,
+    offset,
+    panMode,
+    togglePanMode,
+    onMouseDown,
+    onMouseMove,
+    onMouseUp,
+  } = useCanvasMove();
 
   return (
-    <div className="canvas-view">
+    <div className={canvasView}>
       <div
         ref={setNodeRef}
         onWheel={handleWheel}
-        className={`component-canvas ${isOver ? "drag-over" : ""}`}
+        className={componentCanvas({ isOver, panMode, dragging })}
+        onMouseDown={onMouseDown}
+        onMouseMove={onMouseMove}
+        onMouseUp={onMouseUp}
       >
-        <div className="canvas-inner" style={innerCanvasStyle}>
-          {tree.length === 0 ? (
-            <div className="empty-canvas">Drag components from the palette</div>
-          ) : (
-            <TreeRenderer nodes={tree} />
-          )}
+        <div
+          className={canvasInner({ panMode, dragging })}
+          style={{
+            transform: `translate(${offset.x}px, ${offset.y}px) scale(${scale})`,
+          }}
+        >
+          <TreeRenderer nodes={tree} panMode={panMode} />
         </div>
-        <div className="canvas-toolbar">
-          <HistoryControls />
-          <ZoomControl
-            scale={scale}
-            onZoomIn={zoomIn}
-            onZoomOut={zoomOut}
-            onReset={resetZoom}
-          />
-        </div>
+      </div>
+      <div className={canvasToolbar}>
+        <HistoryControls />
+        <ZoomControl
+          panMode={panMode}
+          onPanToggle={togglePanMode}
+          scale={scale}
+          onZoomIn={zoomIn}
+          onZoomOut={zoomOut}
+          onReset={resetZoom}
+        />
       </div>
       <PropertyEditor node={selectedNode} onChange={updateNodeProps} />
     </div>

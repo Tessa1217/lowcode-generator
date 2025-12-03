@@ -1,57 +1,78 @@
 import type { Node } from "@xyflow/react";
 import type { ComponentNodeData } from "./component-node";
 import { ComponentPropertyRenderer } from "./component-property-renderer";
+import {
+  componentPropsContainer,
+  componentPropsCategoryContainer,
+  componentPropsCategoryTitle,
+  emptyPropsContainer,
+  componentPropsTitle,
+  componentPropsGroup,
+  componentPropsGroupTitle,
+  componentPropsGroupNoValue,
+} from "./tree-view.css";
 
-type ComponentInspectorProps = {
+interface ComponentInspectorProps {
   node: Node | null;
-};
+}
 
 export function ComponentInspector({ node }: ComponentInspectorProps) {
-  if (!node)
+  if (!node) {
     return (
-      <div className="empty-component-props-container">
+      <div className={emptyPropsContainer}>
         속성을 확인할 노드를 선택해주세요.
       </div>
     );
+  }
 
   const data = node.data as ComponentNodeData;
+  const metaEntries = data.meta ? Object.entries(data.meta) : [];
+  const propsEntries = data.props ? Object.entries(data.props) : [];
 
   return (
-    <div className="component-props-container">
-      <h3 className="component-props-title">{data.label}</h3>
+    <div className={componentPropsContainer}>
+      <h3 className={componentPropsTitle}>{data.label}</h3>
       <PropertySection title="Metadata">
-        {data.meta && Object.keys(data.meta).length ? (
-          Object.entries(data.meta)
-            .filter(([_, value]) => typeof value === "string")
-            .map(([key, value]) => (
-              <div key={key} className="component-props-group">
-                <span className="component-props-group-title">{key}</span>
-                <p>{value}</p>
-              </div>
-            ))
-        ) : (
-          <div className="component-props-group-no-value">
-            메타 데이터가 없습니다.
-          </div>
-        )}
+        <PropertyList
+          entries={metaEntries}
+          emptyMessage="메타 데이터가 없습니다."
+          filterFn={([_, value]) => typeof value === "string"}
+        />
       </PropertySection>
       <PropertySection title="Properties">
-        {data.props && Object.keys(data.props).length ? (
-          Object.entries(data.props).map(([key, value]) => (
-            <div key={key} className="component-props-group">
-              <span className="component-props-group-title">{key}</span>
-              <div>
-                <ComponentPropertyRenderer value={value} />
-              </div>
-            </div>
-          ))
-        ) : (
-          <div className="component-props-group-no-value">
-            지정 가능한 속성이 없습니다.
-          </div>
-        )}
+        <PropertyList
+          entries={propsEntries}
+          emptyMessage="지정 가능한 속성이 없습니다."
+        />
       </PropertySection>
     </div>
+  );
+}
+
+type PropertyEntry = [string, unknown];
+
+interface PropertyListProps {
+  entries: PropertyEntry[];
+  emptyMessage: string;
+  filterFn?: (entry: PropertyEntry) => boolean;
+}
+
+function PropertyList({ entries, emptyMessage, filterFn }: PropertyListProps) {
+  const filteredEntries = filterFn ? entries.filter(filterFn) : entries;
+
+  if (!filteredEntries.length) {
+    return <div className={componentPropsGroupNoValue}>{emptyMessage}</div>;
+  }
+
+  return (
+    <>
+      {filteredEntries.map(([key, value]) => (
+        <div key={key} className={componentPropsGroup}>
+          <span className={componentPropsGroupTitle}>{key}</span>
+          <ComponentPropertyRenderer value={value} />
+        </div>
+      ))}
+    </>
   );
 }
 
@@ -63,8 +84,8 @@ function PropertySection({
   children: React.ReactNode;
 }) {
   return (
-    <div className="component-props-category-container">
-      <div className="component-props-category-title">{title}</div>
+    <div className={componentPropsCategoryContainer}>
+      <div className={componentPropsCategoryTitle}>{title}</div>
       <div>{children}</div>
     </div>
   );

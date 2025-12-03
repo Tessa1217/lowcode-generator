@@ -1,5 +1,14 @@
-import { type PropsMeta } from "@packages/ui";
-import "./property-field.css";
+import { type PropsMeta } from "../../registry";
+import {
+  checkboxLabel,
+  checkboxWrapper,
+  propertyDescription,
+  propertyField,
+  propertyFieldControl,
+  propertyFieldHeader,
+  required,
+  resetButton,
+} from "./property-editor.css";
 
 interface PropertyFieldProps {
   propName: string;
@@ -17,16 +26,16 @@ export function PropertyField({
   const currentValue = value ?? propMeta.default;
 
   return (
-    <div className="property-field">
-      <div className="property-field-header">
+    <div className={propertyField}>
+      <div className={propertyFieldHeader}>
         <label htmlFor={propName}>
           {propName}
-          {propMeta.required && <span className="required">*</span>}
+          {propMeta.required && <span className={required}>*</span>}
         </label>
         {/* 기본값으로 리셋 버튼 */}
         {value !== undefined && value !== propMeta.default && (
           <button
-            className="reset-button"
+            className={resetButton}
             onClick={() => onChange(propMeta.default)}
             title="기본값으로 리셋"
           >
@@ -36,7 +45,7 @@ export function PropertyField({
       </div>
 
       {/* 컨트롤 렌더링 */}
-      <div className="property-field-control">
+      <div className={propertyFieldControl}>
         {propMeta.control === "select" && (
           <select
             id={propName}
@@ -79,14 +88,14 @@ export function PropertyField({
         )}
 
         {propMeta.control === "boolean" && (
-          <label className="checkbox-wrapper">
+          <label className={checkboxWrapper}>
             <input
               id={propName}
               type="checkbox"
               checked={currentValue}
               onChange={(e) => onChange(e.target.checked)}
             />
-            <span className="checkbox-label">활성화</span>
+            <span className={checkboxLabel}>활성화</span>
           </label>
         )}
 
@@ -115,7 +124,7 @@ export function PropertyField({
 
       {/* 설명 */}
       {propMeta.description && (
-        <small className="property-description">{propMeta.description}</small>
+        <small className={propertyDescription}>{propMeta.description}</small>
       )}
     </div>
   );

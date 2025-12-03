@@ -3,14 +3,15 @@ import {
   getComponentMeta,
   getComponent,
   type ComponentType,
-} from "@packages/ui";
+} from "../../registry";
 import { useSortableDragAndHover } from "../../hooks/useSortableDragAndHover";
 import { useTreeStore } from "../../store/treeStore";
 import { type TreeNode } from "../../types";
+import { emptyCanvas } from "../canvas/canvas-view.css";
 import { TableNodeTree } from "./tree-node-table";
 import { TreeNodeContainer } from "./tree-node-container";
 import { TreeNodeInline } from "./tree-node-inline";
-import "./tree-node.css";
+import { emptyDropZone } from "./tree-node.css";
 
 export interface BaseNodeProps {
   node: TreeNode;
@@ -26,9 +27,10 @@ export interface BaseNodeProps {
 
 interface TreeNodeComponentProps {
   node: TreeNode;
+  panMode: boolean;
 }
 
-function TreeNode({ node }: TreeNodeComponentProps) {
+function TreeNode({ node, panMode }: TreeNodeComponentProps) {
   const meta = getComponentMeta(node.componentName);
   const Component = getComponent(node.componentName) as ComponentType;
   const canHaveChildren = meta?.hasChildren;
@@ -46,12 +48,12 @@ function TreeNode({ node }: TreeNodeComponentProps) {
     handleMouseLeave,
     dragProps,
     handleMouseDown,
-  } = useSortableDragAndHover(node);
+  } = useSortableDragAndHover(node, panMode);
 
   // children 렌더링
   const renderChildren = () => {
     if (node.children.length > 0) {
-      return <TreeRenderer nodes={node.children} />;
+      return <TreeRenderer nodes={node.children} panMode={panMode} />;
     }
     if (node.props.children) {
       return node.props.children as React.ReactNode;
@@ -106,11 +108,11 @@ function TextNode({ node }: { node: TreeNode }) {
 
 // 빈 드롭 존
 function EmptyDropZone() {
-  return <div className="empty-drop-zone">Drop here to nest</div>;
+  return <div className={emptyDropZone}>Drop here to nest</div>;
 }
 
 // 트리 노드 컴포넌트
-function TreeNodeComponent({ node }: TreeNodeComponentProps) {
+function TreeNodeComponent({ node, panMode }: TreeNodeComponentProps) {
   if (node.componentName === "Table") {
     return <TableNode node={node} />;
   }
@@ -119,16 +121,18 @@ function TreeNodeComponent({ node }: TreeNodeComponentProps) {
     return <TextNode node={node} />;
   }
 
-  return <TreeNode node={node} />;
+  return <TreeNode node={node} panMode={panMode} />;
 }
 
 interface TreeRendererProps {
   nodes: TreeNode[];
+  panMode: boolean;
 }
 
 // 트리 Renderer
-export function TreeRenderer({ nodes }: TreeRendererProps) {
-  if (nodes.length === 0) return null;
+export function TreeRenderer({ nodes, panMode }: TreeRendererProps) {
+  if (nodes.length === 0)
+    return <div className={emptyCanvas}>Drag components from the palette</div>;
 
   return (
     <SortableContext
@@ -136,7 +140,7 @@ export function TreeRenderer({ nodes }: TreeRendererProps) {
       strategy={rectSortingStrategy}
     >
       {nodes.map((node) => (
-        <TreeNodeComponent key={node.id} node={node} />
+        <TreeNodeComponent key={node.id} node={node} panMode={panMode} />
       ))}
     </SortableContext>
   );

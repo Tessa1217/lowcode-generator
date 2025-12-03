@@ -1,5 +1,11 @@
 import { Plus, X, Minus } from "lucide-react";
-
+import { cn } from "@packages/ui";
+import {
+  colAddButton,
+  rowAddButton,
+  tableButton,
+  tableDeleteButton,
+} from "./tree-node.css";
 interface TableActionButtonsProps {
   isHovered: boolean;
   onAddColumn: () => void;
@@ -15,7 +21,10 @@ export function TableActionButtons({
     <>
       <button
         onClick={onAddColumn}
-        className={`table-btn table-col-add-btn ${isHovered ? "hovered" : ""}`}
+        className={cn(
+          tableButton({ hovered: isHovered }),
+          colAddButton({ hovered: isHovered })
+        )}
         aria-label="열 추가"
         title="열 추가"
       >
@@ -24,7 +33,10 @@ export function TableActionButtons({
 
       <button
         onClick={onAddRow}
-        className={`table-btn table-row-add-btn ${isHovered ? "hovered" : ""}`}
+        className={cn(
+          tableButton({ hovered: isHovered }),
+          rowAddButton({ hovered: isHovered })
+        )}
         aria-label="행 추가"
         title="행 추가"
       >
@@ -50,7 +62,10 @@ export function DeleteColumnButton({
   return (
     <button
       onClick={onDelete}
-      className={`table-btn table-delete-btn ${isHovered ? "hovered" : ""}`}
+      className={cn(
+        tableButton({ hovered: isHovered }),
+        tableDeleteButton({ direction: "col" })
+      )}
       aria-label="열 삭제"
       title="열 삭제"
     >
@@ -75,7 +90,10 @@ export function DeleteRowButton({
   return (
     <button
       onClick={onDelete}
-      className={`table-btn table-row-delete-btn ${isHovered ? "hovered" : ""}`}
+      className={cn(
+        tableButton({ hovered: isHovered }),
+        tableDeleteButton({ direction: "row" })
+      )}
       aria-label="행 삭제"
       title="행 삭제"
     >
