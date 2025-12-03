@@ -41,7 +41,13 @@ export const componentInspector = recipe({
   },
   variants: {
     hidden: {
-      true: { display: "none" },
+      true: {
+        "@media": {
+          "(max-width: 1024px)": {
+            height: "0px",
+          },
+        },
+      },
     },
   },
 });
@@ -62,8 +68,9 @@ export const componentInspectorCloseButton = style([
     zIndex: 100,
     selectors: {
       "&:hover": {
-        background: vars.color.background.base.subtle,
+        background: vars.color.background.base.bold,
         border: vars.color.border.base.subtle,
+        color: vars.color.text.base.inverse,
       },
       "&:active": {
         background: vars.color.background.base.subtle,

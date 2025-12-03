@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { ReactFlow, type Node } from "@xyflow/react";
 import { useTreeFlow } from "../../hooks/useTreeFlow";
+import { useToggle } from "../../hooks/useToggle";
 import { CustomEdge } from "./component-edge";
 import { ComponentNode } from "./component-node";
 import { ComponentInspector } from "./component-inspector";
@@ -22,7 +23,7 @@ const nodeTypes = {
 
 export function TreeView() {
   const { nodes, edges } = useTreeFlow();
-  const [hidden, setHidden] = useState<boolean>(false);
+  const { on, toggle } = useToggle(false);
   const [selectedComponent, setSelectedComponent] = useState<Node | null>(null);
 
   return (
@@ -37,14 +38,11 @@ export function TreeView() {
           fitView
         />
       </div>
-      <button
-        className={componentInspectorCloseButton}
-        onClick={() => setHidden(!hidden)}
-      >
-        {hidden ? "열기" : "닫기"}
-      </button>
-      <div className={componentInspector({ hidden })}>
-        <ComponentInspector node={selectedComponent} />
+      <div className={componentInspector({ hidden: on })}>
+        <button className={componentInspectorCloseButton} onClick={toggle}>
+          {on ? "열기" : "닫기"}
+        </button>
+        {!on && <ComponentInspector node={selectedComponent} />}
       </div>
     </div>
   );
