@@ -1,5 +1,71 @@
 # @packages/vanilla-extract-config Tech Spec
 
+## 📑 목차
+
+### 1. [프로젝트 개요](#-프로젝트-개요)
+
+- [주요 역할](#주요-역할)
+
+### 2. [기술 스택](#-기술-스택)
+
+- [핵심 기술](#핵심-기술)
+- [패키지 구조](#패키지-구조)
+
+### 3. [기술 스택 선택 이유](#-기술-스택-선택-이유)
+
+- [Vanilla Extract를 선택한 이유](#1-vanilla-extract를-선택한-이유)
+  - [Zero-Runtime CSS](#1-1-zero-runtime-css)
+  - [Type-Safe 스타일링](#1-2-type-safe-스타일링)
+  - [Theme Contract를 통한 토큰 시스템 통합](#1-3-theme-contract를-통한-토큰-시스템-통합)
+  - [Recipe를 통한 Variant 시스템](#1-4-recipe를-통한-variant-시스템)
+- [왜 Config 패키지로 분리했는가](#2-왜-config-패키지로-분리했는가)
+
+### 4. [기술 스택 활용 예제](#-기술-스택-활용-예제)
+
+- [예제 1: Theme Contract 생성](#예제-1-theme-contract-생성)
+- [예제 2: Typography Recipe - 모든 타이포그래피 스타일 정의](#예제-2-typography-recipe---모든-타이포그래피-스타일-정의)
+- [예제 3: Layout Recipe - Container](#예제-3-layout-recipe---container)
+- [예제 4: Layout Recipe - Stack (Flexbox)](#예제-4-layout-recipe---stack-flexbox)
+- [예제 5: Layout Recipe - Grid](#예제-5-layout-recipe---grid)
+- [예제 6: Constants - 공통 타입 및 상수](#예제-6-constants---공통-타입-및-상수)
+- [예제 7: Export 구조](#예제-7-export-구조)
+
+### 5. [개인적인 회고: 문제 해결 과정](#-개인적인-회고-문제-해결-과정)
+
+- [1. 문제 인식](#1-문제-인식)
+  - [1-1. createGlobalTheme을 패키지 외부에서 호출 시 Vanilla Extract 오류](#1-1-createglobaltheme을-패키지-외부에서-호출-시-vanilla-extract-오류)
+  - [1-2. Theme Contract와 Global Theme의 역할 혼동](#1-2-theme-contract와-global-theme의-역할-혼동)
+- [2. 문제 해결](#2-문제-해결)
+  - [2-1. Theme Contract와 Global Theme 분리](#2-1-theme-contract와-global-theme-분리)
+  - [2-2. 정확한 책임 분리](#2-2-정확한-책임-분리)
+  - [2-3. 테마 전환 가능한 구조 확보](#2-3-테마-전환-가능한-구조-확보)
+- [3. 다시 만든다면 이렇게 할 것](#3-다시-만든다면-이렇게-할-것)
+  - [3-1. Compound Variants 활용](#3-1-compound-variants-활용)
+  - [3-2. Responsive Variants 시스템](#3-2-responsive-variants-시스템)
+  - [3-3. Animation & Transition Recipe](#3-3-animation--transition-recipe)
+  - [3-4. Form Recipe - Input States](#3-4-form-recipe---input-states)
+- [4. 더 해봤으면 좋았을 것들](#4-더-해봤으면-좋았을-것들)
+  - [4-1. Component Token Recipe](#4-1-component-token-recipe)
+  - [4-2. CSS Custom Properties 기반 Runtime Theming](#4-2-css-custom-properties-기반-runtime-theming)
+  - [4-3. Design Token Documentation Generator](#4-3-design-token-documentation-generator)
+  - [4-4. Utility-First Sprinkles System](#4-4-utility-first-sprinkles-system)
+
+### 6. [성과 및 영향](#-성과-및-영향)
+
+- [정량적 성과](#정량적-성과)
+- [정성적 영향](#정성적-영향)
+
+### 7. [관련 패키지](#-관련-패키지)
+
+### 8. [확장 가능성](#-확장-가능성)
+
+- [다른 디자인 시스템 적용](#다른-디자인-시스템-적용)
+- [다른 형태의 Config 생성](#다른-형태의-config-생성)
+
+### 9. [참고 자료](#-참고-자료)
+
+---
+
 ## 📋 프로젝트 개요
 
 `@packages/vanilla-extract-config`는 Vanilla Extract를 사용한 스타일링을 위한 **기본 설정과 재사용 가능한 스타일 구성 요소**를 제공하는 패키지입니다. 디자인 토큰을 기반으로 Theme Contract를 생성하고, Typography와 Layout에 대한 사전 정의된 Recipe를 제공하여 UI 컴포넌트 개발 시 일관된 스타일링을 손쉽게 적용할 수 있도록 합니다.

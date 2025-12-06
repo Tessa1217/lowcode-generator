@@ -1,5 +1,69 @@
 # @packages/ui Tech Spec
 
+## 📑 목차
+
+### 1. [프로젝트 개요](#-프로젝트-개요)
+
+- [주요 역할](#주요-역할)
+
+### 2. [기술 스택](#-기술-스택)
+
+- [핵심 기술](#핵심-기술)
+- [패키지 구조](#패키지-구조)
+
+### 3. [기술 스택 선택 이유](#-기술-스택-선택-이유)
+
+- [React 19를 선택한 이유](#1-react-19를-선택한-이유)
+- [Vanilla Extract 통합의 이점](#2-vanilla-extract-통합의-이점)
+- [Vite를 선택한 이유](#3-vite를-선택한-이유)
+- [Storybook을 선택한 이유](#4-storybook을-선택한-이유)
+
+### 4. [기술 스택 활용 예제](#-기술-스택-활용-예제)
+
+- [예제 1: Button 컴포넌트 - 동적 Color Variant 생성](#예제-1-button-컴포넌트---동적-color-variant-생성)
+- [예제 2: Typography 컴포넌트 - Polymorphic Component](#예제-2-typography-컴포넌트---polymorphic-component)
+- [예제 3: Input 컴포넌트 - 접근성과 유연성](#예제-3-input-컴포넌트---접근성과-유연성)
+- [예제 4: Component Meta - Code Generator 연동](#예제-4-component-meta---code-generator-연동)
+- [예제 5: Global Theme 적용](#예제-5-global-theme-적용)
+- [예제 6: Storybook 통합](#예제-6-storybook-통합)
+- [예제 7: className 유틸리티 - cn 함수](#예제-7-classname-유틸리티---cn-함수)
+
+### 5. [개인적인 회고: 문제 해결 과정](#-개인적인-회고-문제-해결-과정)
+
+- [1. 문제 인식](#1-문제-인식)
+  - [1-1. 어떤 컴포넌트를 제공할지 결정](#1-1-어떤-컴포넌트를-제공할지-결정)
+  - [1-2. Variant 시스템의 복잡도](#1-2-variant-시스템의-복잡도)
+  - [1-3. Component Meta와 Registry의 위치](#1-3-component-meta와-registry의-위치)
+- [2. 문제 해결](#2-문제-해결)
+  - [2-1. 1차 기본 컴포넌트 선정 전략](#2-1-1차-기본-컴포넌트-선정-전략)
+  - [2-2. Variant 시스템의 균형 찾기](#2-2-variant-시스템의-균형-찾기)
+  - [2-3. Meta와 Registry를 Code Generator로 이동](#2-3-meta와-registry를-code-generator로-이동)
+- [3. 다시 만든다면 이렇게 할 것](#3-다시-만든다면-이렇게-할-것)
+  - [3-1. Compound Components 패턴](#3-1-compound-components-패턴)
+  - [3-2. Form 컴포넌트 통합](#3-2-form-컴포넌트-통합)
+  - [3-3. 토큰 기반 Spacing Props](#3-3-토큰-기반-spacing-props)
+  - [3-4. 컴포넌트 자동 문서화](#3-4-컴포넌트-자동-문서화)
+- [4. 더 해봤으면 좋았을 것들](#4-더-해봤으면-좋았을-것들)
+  - [4-1. 테마 전환 시스템 (Light/Dark Mode)](#4-1-테마-전환-시스템-lightdark-mode)
+  - [4-2. Responsive Props 시스템](#4-2-responsive-props-시스템)
+  - [4-3. Animation Preset](#4-3-animation-preset)
+  - [4-4. Visual Regression Testing](#4-4-visual-regression-testing)
+
+### 6. [성과 및 영향](#-성과-및-영향)
+
+- [정량적 성과](#정량적-성과)
+- [정성적 영향](#정성적-영향)
+
+### 7. [관련 패키지 및 시스템](#-관련-패키지-및-시스템)
+
+- [의존 패키지](#의존-패키지)
+- [소비 패키지](#소비-패키지)
+- [인프라](#인프라)
+
+### 8. [참고 자료](#-참고-자료)
+
+---
+
 ## 📋 프로젝트 개요
 
 `@packages/ui`는 디자인 토큰과 Vanilla Extract를 기반으로 구축된 **타입 안전한 React 컴포넌트 라이브러리**입니다. Low-code Generator 프로젝트의 핵심 디자인 시스템으로, 일관된 UI를 제공하며 variant 시스템을 통해 다양한 디자인 변형을 지원합니다. Storybook을 통한 문서화와 시각적 테스팅을 제공하여 개발자와 디자이너 간의 협업을 촉진합니다.
