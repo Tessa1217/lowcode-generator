@@ -1,4 +1,72 @@
-# Code Generator Tech Spec
+# @apps/code-generator Tech Spec
+
+## 📑 목차
+
+### 1. [프로젝트 개요](#-프로젝트-개요)
+
+- [주요 역할](#주요-역할)
+
+### 2. [기술 스택](#-기술-스택)
+
+- [핵심 기술](#핵심-기술)
+- [아키텍처 구조](#아키텍처-구조)
+
+### 3. [기술 스택 선택 이유](#-기술-스택-선택-이유)
+
+- [Zustand를 선택한 이유](#1-zustand를-선택한-이유)
+- [@dnd-kit을 선택한 이유](#2-dnd-kit을-선택한-이유)
+- [React Flow를 선택한 이유](#3-react-flow를-선택한-이유)
+- [Monaco Editor를 선택한 이유](#4-monaco-editor를-선택한-이유)
+
+### 4. [핵심 기능 및 구현](#-핵심-기능-및-구현)
+
+- [기능 1: Component Registry - Variant 선택 권한 위임](#기능-1-component-registry---variant-선택-권한-위임)
+- [기능 2: Custom Collision Detection - 중첩 Droppable 처리](#기능-2-custom-collision-detection---중첩-droppable-처리)
+- [기능 3: History Management - Undo/Redo](#기능-3-history-management---undoredo)
+- [기능 4: Keyboard Actions - 효율적인 작업 흐름](#기능-4-keyboard-actions---효율적인-작업-흐름)
+- [기능 5: Template System - 기본 레이아웃 제공](#기능-5-template-system---기본-레이아웃-제공)
+- [기능 6: Scaffold System with Acorn - HTML 구조 보장](#기능-6-scaffold-system-with-acorn---html-구조-보장)
+- [기능 7: Table Data Grid - 커스텀 편집 액션](#기능-7-table-data-grid---커스텀-편집-액션)
+- [기능 8: Code Generation - React 코드 자동 생성](#기능-8-code-generation---react-코드-자동-생성)
+
+### 5. [개인적인 회고: 문제 해결 과정](#-개인적인-회고-문제-해결-과정)
+
+- [1. 문제 인식](#1-문제-인식)
+  - [1-1. Drag and Drop의 정확도 문제](#1-1-drag-and-drop의-정확도-문제)
+  - [1-2. History 구현의 메모리 문제](#1-2-history-구현의-메모리-문제)
+  - [1-3. Component Meta와 Registry의 관리](#1-3-component-meta와-registry의-관리)
+  - [1-4. Table 구조 보장 문제](#1-4-table-구조-보장-문제)
+- [2. 문제 해결](#2-문제-해결)
+  - [2-1. Custom Collision Detection 알고리즘](#2-1-custom-collision-detection-알고리즘)
+  - [2-2. Scaffold 시스템으로 Table 구조 보장](#2-2-scaffold-시스템으로-table-구조-보장)
+  - [2-3. History 최적화 및 동기화](#2-3-history-최적화-및-동기화)
+  - [2-4. Component Meta를 Code Generator로 위임](#2-4-component-meta를-code-generator로-위임)
+- [3. 다시 만든다면 이렇게 할 것](#3-다시-만든다면-이렇게-할-것)
+  - [3-1. 실시간 협업 기능](#3-1-실시간-협업-기능)
+  - [3-2. Component Library 확장](#3-2-component-library-확장)
+  - [3-3. AI 기반 레이아웃 제안](#3-3-ai-기반-레이아웃-제안)
+  - [3-4. 반응형 디자인 지원](#3-4-반응형-디자인-지원)
+- [4. 더 해봤으면 좋았을 것들](#4-더-해봤으면-좋았을-것들)
+  - [4-1. 사용자 정의 템플릿 저장](#4-1-사용자-정의-템플릿-저장)
+  - [4-2. 디자인 시스템 토큰 직접 편집](#4-2-디자인-시스템-토큰-직접-편집)
+  - [4-3. Component Preview Mode](#4-3-component-preview-mode)
+  - [4-4. Git 통합](#4-4-git-통합)
+
+### 6. [성과 및 영향](#-성과-및-영향)
+
+- [정량적 성과](#정량적-성과)
+- [정성적 영향](#정성적-영향)
+
+### 7. [관련 패키지 및 시스템](#-관련-패키지-및-시스템)
+
+### 8. [참고 자료](#-참고-자료)
+
+### 9. [프로젝트 하이라이트](#-프로젝트-하이라이트)
+
+- [핵심 혁신](#핵심-혁신)
+- [향후 비전](#향후-비전)
+
+---
 
 ## 📋 프로젝트 개요
 
@@ -2626,6 +2694,7 @@ function rollbackToVersion(versionId: string) {
 - [Collision Detection Algorithms](https://developer.mozilla.org/en-US/docs/Games/Techniques/2D_collision_detection)
 
 ---
+
 ## 🎉 프로젝트 하이라이트
 
 ### 핵심 혁신
